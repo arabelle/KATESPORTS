@@ -45,32 +45,27 @@ public class UI extends javax.swing.JFrame {
 		String username = "ora_l5z8";
 		String password = "a28626117";
 		
-		try {
-			con = DriverManager.getConnection(connectURL, username, password);
-			System.out.println("\nConnected to Oracle!");
-		} catch (SQLException ex) {
-			System.out.println("Message: " + ex.getMessage());
-		}
-        
 
         TeamDropdown2.removeAllItems();
         TeamDropdown.removeAllItems();
         TeamDropdown2.addItem("ALL");
-		 TeamDropdown.addItem("ALL");
+		TeamDropdown.addItem("ALL");
 		
 		try {
+			con = DriverManager.getConnection(connectURL, username, password);
+			System.out.println("\nConnected to Oracle!");
 			Statement stmt = con.createStatement();
 			ResultSet rs = stmt.executeQuery("SELECT team_name FROM Team");
 			while (rs.next()) {
 			  TeamDropdown2.addItem(rs.getString(1));
 			  TeamDropdown.addItem(rs.getString(1));
 			}
-		} catch (SQLException e1) {
-			System.out.println("Message: " + e1.getMessage());
+		} catch (SQLException ex) {
+			System.out.println("Message: " + ex.getMessage());
 		}
+        
+
 		
-        
-        
     }
 
     
@@ -707,7 +702,7 @@ public class UI extends javax.swing.JFrame {
     			Object rowData = new Object[columnCount];
 				for(int i = 1; i <= columnCount; i++){
 					System.out.println(rs.getString(i));
-					rowData[i-1] = rs.getString(i);
+					//rowData[i-1] = rs.getString(i);
 				}
 			}
     		
