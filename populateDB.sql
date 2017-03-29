@@ -150,6 +150,18 @@ INSERT INTO MatchSummary
 VALUES('Ball Is Life', 'Hot Cheetos', 72, 32, 'Ball Is Life', 'Hot Cheetos');
 INSERT INTO MatchSummary
 VALUES('Ball Is Life', 'AndroidT', 67, 63, 'Ball Is Life', 'AndroidT');
+INSERT INTO MatchSummary
+VALUES ('Ball is Life', 'AndroidT', 11, 3, 'Ball is Life', 'AndroidT');
+INSERT INTO MatchSummary
+VALUES ('Non-Losers', 'Ball is Life', 5, 20, 'Ball is Life', 'Non-Losers');
+INSERT INTO MatchSummary
+VALUES  ('Grannies', 'Hot Cheetos', 53, 26, 'Grannies', 'Hot Cheetos');
+INSERT INTO MatchSummary
+VALUES  ('AndroidT', 'Non-Losers', 8, 1, 'AndroidT', 'Non-Losers');
+INSERT INTO MatchSummary
+VALUES  ('Non-Losers', 'AndroidT', 1, 8, 'AndroidT', 'Non-Losers');
+INSERT INTO MatchSummary
+VALUES   ('AndroidT', 'Grannies', 10, 3, 'AndroidT', 'Grannies');
 
 CREATE TABLE MatchInfo (
 	match_id NUMBER(10) NOT NULL,
@@ -170,12 +182,24 @@ CREATE TABLE MatchInfo (
 grant select on MatchInfo to public;
 
 INSERT INTO MatchInfo
-VALUES(1, 'Non-Losers', 'Grannies', NULL, NULL, to_timestamp('01-12-2017 19:45','MM-DD-YYYY HH24:MI'), NULL, 4);
+VALUES (1, 'Non-Losers', 'Grannies', 56, 59, to_timestamp('01-12-2017 19:45','MM-DD-YYYY HH24:MI'), to_timestamp('01-12-2017 21:45','MM-DD-YYYY HH24:MI'), 1),
+INSERT INTO Matchinfo
+VALUES (2, 'Hot Cheetos', 'Non-Losers', 44, 76, to_timestamp('01-12-2017 15:30','MM-DD-YYYY HH24:MI'), to_timestamp('01-12-2017 18:30','MM-DD-YYYY HH24:MI'), 5)
 INSERT INTO MatchInfo
-VALUES(2, 'Hot Cheetos', 'Non-Losers', NULL, NULL, to_timestamp('01-12-2017 15:30','MM-DD-YYYY HH24:MI'), NULL, 5);
+VALUES (3, 'Hot Cheetos', 'Grannies', 53, 62, to_timestamp('01-12-2017 12:00','MM-DD-YYYY HH24:MI'), to_timestamp('01-12-2017 13:30','MM-DD-YYYY HH24:MI'), 2),
 INSERT INTO MatchInfo
-VALUES(3, 'Hot Cheetos', 'Grannies', NULL, NULL, to_timestamp('01-12-2017 12:00','MM-DD-YYYY HH24:MI'), NULL, 5);
+VALUES (4, 'Ball is Life', 'Hot Cheetos', 72, 32, to_timestamp('02-14-2017 14:00','MM-DD-YYYY HH24:MI'), to_timestamp('02-14-2017 18:05','MM-DD-YYYY HH24:MI'), 1),
 INSERT INTO MatchInfo
-VALUES(4, 'Ball Is Life', 'Hot Cheetos', NULL, NULL, to_timestamp('01-14-2017 14:00','MM-DD-YYYY HH24:MI'), NULL, 1);
+VALUES (5, 'AndroidT', 'Grannies', 10, 3, to_timestamp('02-14-2017 14:00','MM-DD-YYYY HH24:MI'), to_timestamp('02-14-2017 18:05','MM-DD-YYYY HH24:MI'), 3),
 INSERT INTO MatchInfo
-VALUES(5, 'Ball Is Life', 'AndroidT', NULL, NULL, to_timestamp('01-14-2017 11:00','MM-DD-YYYY HH24:MI'), NULL, 1);
+VALUES (6, 'Ball is Life', 'AndroidT', 67, 63, to_timestamp('02-14-2017 11:00','MM-DD-YYYY HH24:MI'), to_timestamp('02-14-2017 13:13','MM-DD-YYYY HH24:MI'), 1)
+INSERT INTO MatchInfo
+VALUES (7, 'Ball is Life', 'AndroidT', 11, 3, to_timestamp('04-15-2017 17:00','MM-DD-YYYY HH24:MI'), to_timestamp('04-15-2017 19:20','MM-DD-YYYY HH24:MI'), 5)
+INSERT INTO MatchInfo
+VALUES (8, 'Non-Losers', 'Ball is Life', 5, 20, to_timestamp('04-15-2017 10:00','MM-DD-YYYY HH24:MI'), to_timestamp('04-15-2017 10:22','MM-DD-YYYY HH24:MI'), 4),
+INSERT INTO MatchInfo
+VALUES (9, 'Grannies', 'Hot Cheetos', 53, 26, to_timestamp('08-17-2017 12:00','MM-DD-YYYY HH24:MI'), to_timestamp('08-17-2017 13:30','MM-DD-YYYY HH24:MI'), 4),
+INSERT INTO MatchInfo
+VALUES (10, 'AndroidT', 'Hot Cheetos', 8, 1, to_timestamp('08-17-2017 12:00','MM-DD-YYYY HH24:MI'), to_timestamp('08-17-2017 13:30','MM-DD-YYYY HH24:MI'), 2),
+INSERT INTO MatchInfo
+VALUES (11, 'Non-Losers', 'AndroidT', 1, 8, to_timestamp('08-17-2017 15:00','MM-DD-YYYY HH24:MI'), to_timestamp('08-17-2017 18:30','MM-DD-YYYY HH24:MI'), 3),
