@@ -708,6 +708,7 @@ public class UI extends javax.swing.JFrame {
 				for(int i = 1; i <= columnCount; i++){
 					System.out.println(rs.getString(i));
 					rowData[i-1] = rs.getString(i);
+
 				}
 			}
     		
