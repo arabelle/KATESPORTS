@@ -15,8 +15,6 @@ public class Queries {
 	// command line reader 
     private BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
 
-    private Connection con;
-
 	 /*CREATE GLOBAL TEMPORARY TABLE AvgTeamScores
 	    ON COMMIT PRESERVE ROWS 
 	    AS Select team, avg(score) as avg_score from ((Select home_team as team, home_score as score from MatchSummary) UNION ALL (select away_team as team, away_score as score from MatchSummary)) GROUP BY team
@@ -28,12 +26,12 @@ public class Queries {
     	ResultSet rs = null;
     	String nestedQueryString = "WITH AvgTeamScores AS (Select team, avg(score) as avg_score from ((Select home_team as team, " +
     							   "home_score as score from MatchSummary) UNION ALL (select away_team as team, " +
-    							   "away_score as score from MatchSummary)) GROUP BY team) " + "Select team from " +
-    							   "AvgTeamScores ats where ats.avg_score >= ALL (select avg_score from " + 
-    							   "AvgTeamScores)";
+    							   "away_score as score from MatchSummary)) GROUP BY team) ";
+    	String query = "Select team from AvgTeamScores ats where ats.avg_score >= ALL (select avg_score from AvgTeamScores);";
         try {
+        	Connection con = UI.getCon();
             Statement stmt = con.createStatement();
-            rs = stmt.executeQuery(nestedQueryString);
+            rs = stmt.executeQuery(nestedQueryString + query);
             ResultSetMetaData rsmd = rs.getMetaData();
             printResults(rsmd, rs);
         } catch (SQLException ex) {
@@ -49,8 +47,9 @@ public class Queries {
     							   "home_score as score from MatchSummary) UNION ALL (select away_team as team, " +
     							   "away_score as score from MatchSummary)) GROUP BY team) ";
     	
-    	String query = "Select team from AvgTeamScores ats where ats.avg_score <= ALL (select avg_score from AvgTeamScores)";
+    	String query = "Select team from AvgTeamScores ats where ats.avg_score <= ALL (select avg_score from AvgTeamScores);";
         try {
+        	Connection con = UI.getCon();
             Statement stmt = con.createStatement();
             rs = stmt.executeQuery(nestedQueryString + query);
             ResultSetMetaData rsmd = rs.getMetaData();
@@ -84,6 +83,8 @@ public class Queries {
 			  return null;
 		  }
 		  queryString = queryString + " FROM Player WHERE name = '" + name + "';";
+		  
+		  Connection con = UI.getCon();
 		  stmt = con.createStatement();
 	
 		  rs = stmt.executeQuery(queryString);
@@ -127,6 +128,9 @@ public class Queries {
 			  return null;
 		  }
 		  queryString = queryString + " FROM Team cwt, Player p WHERE cwt.team_name = p.team_name AND cwt.team_name = '" + teamname + "';";
+		  
+		  Connection con = UI.getCon();
+		  
 		  stmt = con.createStatement();
 	
 		  rs = stmt.executeQuery(queryString);
@@ -165,6 +169,9 @@ public class Queries {
 		queryString = queryString + " FROM MatchSummary m WHERE m.winner = '" + team + "';";
 		
 		try {
+			
+		  Connection con = UI.getCon();
+		  
 		  Statement stmt = con.createStatement();
 		  rs = stmt.executeQuery(queryString);
 			
@@ -225,6 +232,7 @@ public class Queries {
     	ResultSet rs = null;
         String divisionQueryString = "SELECT name FROM Referee r WHERE NOT EXISTS ( SELECT * from Team t WHERE NOT EXISTS (Select * from MatchInfo m WHERE m.ref_id = r.ref_id AND (t.team_name = m.home_team OR t.team_name = m.away_team)))";
         try {
+        	Connection con = UI.getCon();
             Statement stmt = con.createStatement();
             rs = stmt.executeQuery(divisionQueryString);
             ResultSetMetaData rsmd = rs.getMetaData();
@@ -242,6 +250,7 @@ public class Queries {
     // user specifies the name
     public void deleteQuery(String nameregex) {
     	PreparedStatement  ps;
+    	Connection con = UI.getCon();
     	try
     	{
     	  ps = con.prepareStatement("DELETE FROM Players WHERE name LIKE ?");
@@ -283,7 +292,7 @@ public class Queries {
       (2, ‘Hot Cheetos’, ‘Non-Losers’, NULL, NULL, to_timestamp(‘01-12-2017 15:30’,’MM-DD-YYYY HH24:MI’), NULL, 5) */
     public void updateQuery(String endtime, int matchid) {
 		PreparedStatement  ps;
-		  
+		Connection con = UI.getCon();
 		try {
 		  ps = con.prepareStatement("UPDATE MatchInfo SET end_time = ? WHERE match_id = ?");
 		

@@ -22,7 +22,7 @@ public class UI extends javax.swing.JFrame {
 	// command line reader
 	private BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
 
-	private Connection con;
+	private static Connection con;
 
 	javax.swing.table.DefaultTableModel PlayerTableModel;
 	
@@ -67,7 +67,10 @@ public class UI extends javax.swing.JFrame {
 
 		
     }
-
+    
+    public static Connection getCon() {
+    	return con;
+    }
     
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">                          
