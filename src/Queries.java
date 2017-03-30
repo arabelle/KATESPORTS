@@ -4,10 +4,8 @@ import java.sql.*;
 import java.io.*;
 
 // for the login window
-import javax.swing.*;
 
-import java.awt.*;
-import java.awt.event.*;
+import java.util.*;
 
 
 public class Queries {
@@ -27,7 +25,7 @@ public class Queries {
     	String nestedQueryString = "WITH AvgTeamScores AS (Select team, avg(score) as avg_score from ((Select home_team as team, " +
     							   "home_score as score from MatchSummary) UNION ALL (select away_team as team, " +
     							   "away_score as score from MatchSummary)) GROUP BY team) ";
-    	String query = "Select team from AvgTeamScores ats where ats.avg_score >= ALL (select avg_score from AvgTeamScores);";
+    	String query = "Select team from AvgTeamScores ats where ats.avg_score >= ALL (select avg_score from AvgTeamScores)";
         try {
         	Connection con = UI.getCon();
             Statement stmt = con.createStatement();
@@ -47,7 +45,7 @@ public class Queries {
     							   "home_score as score from MatchSummary) UNION ALL (select away_team as team, " +
     							   "away_score as score from MatchSummary)) GROUP BY team) ";
     	
-    	String query = "Select team from AvgTeamScores ats where ats.avg_score <= ALL (select avg_score from AvgTeamScores);";
+    	String query = "Select team from AvgTeamScores ats where ats.avg_score <= ALL (select avg_score from AvgTeamScores)";
         try {
         	Connection con = UI.getCon();
             Statement stmt = con.createStatement();
@@ -82,7 +80,7 @@ public class Queries {
 		  else {
 			  return null;
 		  }
-		  queryString = queryString + " FROM Player WHERE name = '" + name + "';";
+		  queryString = queryString + " FROM Player WHERE name like '" + name + "'";
 		  
 		  Connection con = UI.getCon();
 		  stmt = con.createStatement();
@@ -152,13 +150,12 @@ public class Queries {
     
     public ResultSet aggregationQueryAvgMaxMin(String aggtype, String team) {
     	//this gets avg/max/min score of given team over all games
-    	System.out.println("Aggregating");
 		String queryString;
 		ResultSet rs = null;
-
-		queryString = "SELECT " + aggtype + "(score) FROM (select m.home_team as team, m.home_score as score " +
-				"from MatchInfo m where m.home_team ='" + team + "') UNION (select m2.away_team as team, " +
-				"m2.away_score as score from MatchInfo m2 where m2.away_team = '" + team + "')";
+		
+		queryString = "SELECT "+aggtype+"(score) FROM (select m.home_score as score " +
+				"from MatchSummary m where m.home_team ='" + team + "' UNION ALL select " +
+				"m2.away_score as score from MatchSummary m2 where m2.away_team = '" + team + "') score";
 		
 		try {
 			
@@ -222,6 +219,7 @@ public class Queries {
     //should be Harry Jordan
     public ResultSet divisionQuery() {
     	ResultSet rs = null;
+    	System.out.println("Referee who refd all teams: ");
         String divisionQueryString = "SELECT name FROM Referee r WHERE NOT EXISTS ( SELECT * from Team t WHERE NOT EXISTS (Select * from MatchInfo m WHERE m.ref_id = r.ref_id AND (t.team_name = m.home_team OR t.team_name = m.away_team)))";
         try {
         	Connection con = UI.getCon();
@@ -313,5 +311,153 @@ public class Queries {
 		}	
     }
 
-	
+	public ResultSet bonusQuery(String team, String year) {
+		//create table to store results (month & that month's win percentage)
+		String createResultTable = "CREATE GLOBAL TEMPORARY TABLE WinsPerMonth (month char(10), " +
+				"win_percentage NUMBER(5, 2) ON COMMIT PRESERVE ROWS;";
+
+		try {
+			Connection con = UI.getCon();
+			Statement stmt = con.createStatement();
+			stmt.executeQuery(createResultTable);
+		} catch (SQLException ex) {
+			System.out.println("Message: " + ex.getMessage());
+		}
+
+		//get win percentage per month for given team and year
+		for (int i = 1; i <= 12; i++) {
+			String month = null;
+
+			switch (i) {
+				case 1:
+					month = "January";
+					break;
+				case 2:
+					month = "February";
+					break;
+				case 3:
+					month = "March";
+					break;
+				case 4:
+					month = "April";
+					break;
+				case 5:
+					month = "May";
+					break;
+				case 6:
+					month = "June";
+					break;
+				case 7:
+					month = "July";
+					break;
+				case 8:
+					month = "August";
+					break;
+				case 9:
+					month = "September";
+					break;
+				case 10:
+					month = "October";
+					break;
+				case 11:
+					month = "November";
+					break;
+				case 12:
+					month = "December";
+					break;
+				default:
+					month = "Error";
+					break;
+			}
+
+			String month_as_num = (i < 10 ? "0" : "") + i;
+
+			String queryString = "INSERT INTO WinsPerMonth(month, win_percentage) Select '" + month + "'" +
+					"(count(*) as wins from MatchInfo mi, MatchSummary ms where mi.home_team = ms.home_team and " +
+					"mi.away_team = ms.away_team and mi.home_score = ms.home_score and mi.away_score = ms.away_score and " +
+					"(ms.home_team = '" + team + "' or ms.away_team = '" + team + "') and winner = '" + team + "' and " +
+					"date LIKE '" + month_as_num + "-__-" + year + "')*100 / (select count(*) from MatchInfo mi where " +
+					"(ms.home_team = '" + team + "' or ms.away_team = '" + team + "') and " +
+					"date LIKE '" + month_as_num + "-__-" + year + "');";
+
+			try {
+				Connection con = UI.getCon();
+				Statement stmt = con.createStatement();
+
+				stmt.executeUpdate(queryString);
+
+			} catch (SQLException ex) {
+				System.out.println("Message: " + ex.getMessage());
+			}
+		}
+
+		ResultSet rs = null;
+		String getResultTable = "Select * from WinsPerMonth";
+
+		try {
+			Connection con = UI.getCon();
+			Statement stmt = con.createStatement();
+			rs = stmt.executeQuery(getResultTable);
+			ResultSetMetaData rsmd = rs.getMetaData();
+			printResults(rsmd, rs);
+		} catch (SQLException ex) {
+			System.out.println("Message: " + ex.getMessage());
+		}
+
+		return rs;
+	}
 }
+
+//	public void bonusQuery2(String team) {
+//		ResultSet rs = null;
+//		String queryString = "Select winner, date from MatchInfo mi, MatchSummary ms where " +
+//				"mi.home_team = ms.home_team and mi.away_team = ms.away_team and mi.home_score = ms.home_score and " +
+//				"mi.away_score = ms.away_score and (ms.home_team = '" + team + "' or ms.away_team = '" + team + "') " +
+//				"ORDER BY date";
+//		try {
+//			Connection con = UI.getCon();
+//			Statement stmt = con.createStatement();
+//			rs = stmt.executeQuery(queryString);
+//			ResultSetMetaData rsmd = rs.getMetaData();
+//
+//			Tuple tuple = new Tuple();
+//			List<Tuple> tuples = new ArrayList<>();
+//
+//			while (rs.next()) {
+//				if (rs.getString(1).equals(team)) {
+//					if (tuple.startDate == null) {
+//						tuple.startDate = rs.getString(2);
+//					}
+//					tuple.winCount++;
+//				} else {
+//					if (tuple.startDate != null && tuple.endDate == null) {
+//						tuple.endDate = rs.getString(2);
+//						tuples.add(tuple);
+//						tuple = new Tuple();
+//					}
+//				}
+//			}
+//
+//			int maxWins = 0;
+//			Tuple streak = null;
+//			for (Tuple t: tuples) {
+//				if (t.winCount > maxWins) {
+//					maxWins = t.winCount;
+//					streak = t;
+//				}
+//			}
+//
+//			//TODO: display this prettier to user
+//			System.out.println("Longest win streak: " + streak.winCount);
+//			System.out.println("Streak start date: " + streak.startDate);
+//			System.out.println("Streak end date: " + streak.endDate);
+//
+//
+//		} catch (SQLException ex) {
+//			System.out.println("Message: " + ex.getMessage());
+//		}
+//	}
+//
+//
+//
+//}

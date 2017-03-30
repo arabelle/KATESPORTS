@@ -778,28 +778,43 @@ public class UI extends javax.swing.JFrame {
         
     }                                            
     // Button "View number of wins" on player page.
+    // DONE
     private void ViewWinCountActionPerformed(java.awt.event.ActionEvent evt) {                                             
     	String teamname = (String) TeamDropdown2.getSelectedItem();
     	String aggtype = (String) jComboBox1.getSelectedItem();
-    	ResultSet rs = queries.aggregationQueryAvgMaxMin(teamname, aggtype);
+    	ResultSet rs = queries.aggregationQueryAvgMaxMin(aggtype, teamname);
     }                                            
     
     // Teams with most goals.
+    // DONE
     private void GetGoalsAverageActionPerformed(java.awt.event.ActionEvent evt) {                                                
         // TODO add your handling code here:
     	ResultSet rs = queries.nestedQueryBiggest();
     }                 
     // Teams with the fewest goals.
+    // DONE
     protected void GetGoalsAverage1ActionPerformed(ActionEvent evt) {
 		// TODO Auto-generated method stub
     	ResultSet rs = queries.nestedQuerySmallest();
 	}
 
     // View Player info button on player page.
-    private void ViewPlayerInfoActionPerformed(java.awt.event.ActionEvent evt) {                                               
-        // TODO add your handling code here:
-    	String[] params = new String[]{};
-    	String name = "";
+    // DONE
+    private void ViewPlayerInfoActionPerformed(java.awt.event.ActionEvent evt) {
+    	
+    	ArrayList<String> paramlist = new ArrayList<String>();
+    	if(IDBox1.isSelected()) paramlist.add("player_id");
+    	if(NameBox1.isSelected()) paramlist.add("name");
+    	if(PhoneNumberBox1.isSelected()) paramlist.add("phone_no");
+    	if(AgeBox1.isSelected()) paramlist.add("age");
+    	if(WeightBox1.isSelected()) paramlist.add("weight");
+    	if(WonBox1.isSelected()) paramlist.add("matches_won");
+    	if(LostBox1.isSelected()) paramlist.add("matches_lost");
+    	
+    	String[] params = paramlist.toArray(new String[paramlist.size()]);
+        String name = (String) "%"+PlayerName.getText()+"%";
+    	
+    	
     	ResultSet rs = queries.selectPlayer(params, name);
     }                                              
     
@@ -812,7 +827,6 @@ public class UI extends javax.swing.JFrame {
     // Display referees who have refd every game on ref page.
     private void ViewRefereeActionPerformed(java.awt.event.ActionEvent evt) {                                            
         ResultSet rs = queries.divisionQuery();
-    	
     }                                           
 
     // Change game times on ref page.
