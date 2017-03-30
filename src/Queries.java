@@ -4,10 +4,8 @@ import java.sql.*;
 import java.io.*;
 
 // for the login window
-import javax.swing.*;
 
-import java.awt.*;
-import java.awt.event.*;
+import java.util.*;
 
 
 public class Queries {
@@ -156,7 +154,7 @@ public class Queries {
 		ResultSet rs = null;
 
 		queryString = "SELECT " + aggtype + "(score) FROM ((select m.home_team as team, m.home_score as score " +
-				"from MatchInfo m where m.home_team ='" + team + "') UNION (select (m2.away_team as team, " +
+				"from MatchInfo m where m.home_team ='" + team + "') UNION (select m2.away_team as team, " +
 				"m2.away_score as score from MatchInfo m2 where m2.away_team = '" + team + "'));";
 		
 		try {
@@ -407,6 +405,41 @@ public class Queries {
 
 		return rs;
 	}
+
+	public ResultSet bonusQuery2(String team) {
+		ResultSet rs = null;
+		String queryString = "Select winner, date from MatchInfo mi, MatchSummary ms where " +
+				"mi.home_team = ms.home_team and mi.away_team = ms.away_team and mi.home_score = ms.home_score and " +
+				"mi.away_score = ms.away_score and (ms.home_team = '" + team + "' or ms.away_team = '" + team + "') " +
+				"ORDER BY date";
+		try {
+			Connection con = UI.getCon();
+			Statement stmt = con.createStatement();
+			rs = stmt.executeQuery(queryString);
+			ResultSetMetaData rsmd = rs.getMetaData();
+
+			Tuple tuple = new Tuple();
+			List<Tuple> tuples = new ArrayList<>();
+
+			while (rs.next()) {
+				if (rs.getString(1).equals(team)) {
+					if (tuple.startDate == null) {
+						tuple.startDate = rs.getString(2);
+					}
+					tuple.winCount++;
+				} else if (tuple.startDate != null && tuple.endDate == null) {
+					tuple.endDate = rs.getString(2);
+					tuples.add(tuple);
+					tuple = new Tuple();
+				}
+			}
+
+		} catch (SQLException ex) {
+			System.out.println("Message: " + ex.getMessage());
+		}
+		return rs;
+	}
+
 
 
 }
