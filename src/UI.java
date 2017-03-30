@@ -1,6 +1,5 @@
 
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.sql.Connection;
@@ -8,12 +7,12 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
-import javax.management.Query;
 import javax.swing.table.DefaultTableModel;
 
-import java.sql.*;
 
 
 public class UI extends javax.swing.JFrame {
@@ -23,8 +22,6 @@ public class UI extends javax.swing.JFrame {
      */
 	
 	// command line reader
-	private BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
-
 	private static Connection con;
 
 	javax.swing.table.DefaultTableModel PlayerTableModel;
@@ -57,8 +54,7 @@ public class UI extends javax.swing.JFrame {
 		jComboBox1.addItem("Max");
         TeamDropdown2.removeAllItems();
         TeamDropdown.removeAllItems();
-        TeamDropdown2.addItem("ALL");
-		TeamDropdown.addItem("ALL");
+		jComboBox2.removeAllItems();
 		
 		try {
 			con = DriverManager.getConnection(connectURL, username, password);
@@ -68,6 +64,7 @@ public class UI extends javax.swing.JFrame {
 			while (rs.next()) {
 			  TeamDropdown2.addItem(rs.getString(1));
 			  TeamDropdown.addItem(rs.getString(1));
+			  jComboBox2.addItem(rs.getString(1));
 			}
 		} catch (SQLException ex) {
 			System.out.println("Message: " + ex.getMessage());
@@ -80,9 +77,6 @@ public class UI extends javax.swing.JFrame {
     public static Connection getCon() {
     	return con;
     }
-    
-    @SuppressWarnings("unchecked")
-    // <editor-fold defaultstate="collapsed" desc="Generated Code">                          
     private void initComponents() {
 
         jFormattedTextField1 = new javax.swing.JFormattedTextField();
@@ -103,6 +97,13 @@ public class UI extends javax.swing.JFrame {
         jLabel11 = new javax.swing.JLabel();
         PlayerTablePane = new javax.swing.JScrollPane();
         PlayerTable = new javax.swing.JTable();
+        jPanel2 = new javax.swing.JPanel();
+        jLabel16 = new javax.swing.JLabel();
+        jComboBox2 = new javax.swing.JComboBox<>();
+        jLabel17 = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
+        jSpinner1 = new javax.swing.JSpinner();
+        jButton2 = new javax.swing.JButton();
         RefereePane = new javax.swing.JPanel();
         RefSidePane = new javax.swing.JPanel();
         RefereeInfoPane = new javax.swing.JPanel();
@@ -205,7 +206,7 @@ public class UI extends javax.swing.JFrame {
                     .addGroup(PlayerInfoPaneLayout.createSequentialGroup()
                         .addGroup(PlayerInfoPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(ViewPlayerInfo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(ViewPlayerStats, javax.swing.GroupLayout.DEFAULT_SIZE, 145, Short.MAX_VALUE)
+                            .addComponent(ViewPlayerStats, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(PlayerName, javax.swing.GroupLayout.Alignment.TRAILING))
                         .addContainerGap())))
             .addGroup(PlayerInfoPaneLayout.createSequentialGroup()
@@ -267,15 +268,75 @@ public class UI extends javax.swing.JFrame {
         ));
         PlayerTablePane.setViewportView(PlayerTable);
 
+        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Team Stats"));
+
+        jLabel16.setText("Choose Team");
+
+        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        jLabel17.setText("Choose Year");
+
+        jButton1.setText("View % wins/Month");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+        jButton2.setText("View Largest Win Streak");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jComboBox2, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jSpinner1)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel16)
+                            .addComponent(jLabel17)
+                            .addComponent(jButton2))
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel16)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel17)
+                .addGap(3, 3, 3)
+                .addComponent(jSpinner1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton2)
+                .addContainerGap(33, Short.MAX_VALUE))
+        );
+
         javax.swing.GroupLayout PlayerPaneLayout = new javax.swing.GroupLayout(PlayerPane);
         PlayerPane.setLayout(PlayerPaneLayout);
         PlayerPaneLayout.setHorizontalGroup(
             PlayerPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(PlayerPaneLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(PlayerInfoPane, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(PlayerPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(PlayerInfoPane, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(30, 30, 30)
-                .addComponent(PlayerTablePane, javax.swing.GroupLayout.DEFAULT_SIZE, 849, Short.MAX_VALUE)
+                .addComponent(PlayerTablePane, javax.swing.GroupLayout.DEFAULT_SIZE, 847, Short.MAX_VALUE)
                 .addContainerGap())
         );
         PlayerPaneLayout.setVerticalGroup(
@@ -285,8 +346,10 @@ public class UI extends javax.swing.JFrame {
                 .addGroup(PlayerPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(PlayerPaneLayout.createSequentialGroup()
                         .addComponent(PlayerInfoPane, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(PlayerTablePane, javax.swing.GroupLayout.DEFAULT_SIZE, 578, Short.MAX_VALUE))
+                    .addComponent(PlayerTablePane))
                 .addContainerGap())
         );
 
@@ -346,7 +409,7 @@ public class UI extends javax.swing.JFrame {
             }
         });
 
-        jSpinner3.setModel(new javax.swing.SpinnerDateModel(new java.util.Date(915213600000L), new java.util.Date(915213600000L), new java.util.Date(915213600000L), java.util.Calendar.DAY_OF_MONTH));
+        jSpinner3.setModel(new javax.swing.SpinnerDateModel(new java.util.Date(946749600000L), null, null, java.util.Calendar.MINUTE));
         jSpinner3.setBorder(null);
 
         jLabel7.setText("Game ID");
@@ -428,7 +491,7 @@ public class UI extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(RefSidePane, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(12, 12, 12)
-                .addComponent(RefereeTablePane, javax.swing.GroupLayout.DEFAULT_SIZE, 802, Short.MAX_VALUE)
+                .addComponent(RefereeTablePane, javax.swing.GroupLayout.DEFAULT_SIZE, 828, Short.MAX_VALUE)
                 .addContainerGap())
         );
         RefereePaneLayout.setVerticalGroup(
@@ -459,7 +522,7 @@ public class UI extends javax.swing.JFrame {
         IDBox.setText("ID");
 
         NameBox.setText("Name");
-       
+        
 
         PhoneNumberBox.setText("Phone Number");
 
@@ -609,7 +672,7 @@ public class UI extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jPanel10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(CoachTablePane, javax.swing.GroupLayout.DEFAULT_SIZE, 802, Short.MAX_VALUE)
+                .addComponent(CoachTablePane, javax.swing.GroupLayout.DEFAULT_SIZE, 828, Short.MAX_VALUE)
                 .addContainerGap())
         );
         CoachPaneLayout.setVerticalGroup(
@@ -631,7 +694,7 @@ public class UI extends javax.swing.JFrame {
         jLabel1.setText("Select Team:");
 
         TeamDropdown2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-       
+        
 
         jLabel9.setText("View team with");
 
@@ -728,7 +791,7 @@ public class UI extends javax.swing.JFrame {
                 .addComponent(TeamInfoPane, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 850, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(34, Short.MAX_VALUE))
+                .addContainerGap(60, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -756,7 +819,7 @@ public class UI extends javax.swing.JFrame {
         );
 
         pack();
-    }
+    }// </editor-fold>                        
 
     
 
@@ -818,29 +881,47 @@ public class UI extends javax.swing.JFrame {
     	ResultSet rs = queries.selectPlayer(params, name);
     }                                              
     
-    // View player stats on player page.
+    // TODO: Remove this event handler and the associated button
     private void ViewPlayerStatsActionPerformed(java.awt.event.ActionEvent evt) {                                                
-        // TODO add your handling code here:
-    	// Enter bonus questions here
+  
     }                                               
 
     // Display referees who have refd every game on ref page.
+    // TODO: query not ouputting anything (might be due to tables not initiallizing correctly
     private void ViewRefereeActionPerformed(java.awt.event.ActionEvent evt) {                                            
         ResultSet rs = queries.divisionQuery();
     }                                           
 
     // Change game times on ref page.
+    // TODO: fix formatting issue of input date, make sure its altering db
     private void UpdateGameTimeActionPerformed(java.awt.event.ActionEvent evt) {                                               
-        String endtime = "";
-        int matchID = 0;
-        queries.updateQuery(endtime, matchID);
+        java.util.Date endtime = (java.util.Date)jSpinner3.getValue();
+        DateFormat df = new SimpleDateFormat("MM-DD-YYYY HH:MM");
+        String endtimeString = df.format(endtime);
+        System.out.println(endtimeString);
+        int matchID = (int)GameID.getValue();
+        queries.updateQuery(endtimeString, matchID);
     }                                              
 
     // Remove player on Coach page.
+    // DONE
     private void RemovePlayerButtonActionPerformed(java.awt.event.ActionEvent evt) {                                                   
-        String name = "";
+        String name = "%"+PlayerToBeRemoved.getText()+"%";
         queries.deleteQuery(name);
-    }                                                  
+    }     
+    
+    //TODO make work: fix query issues
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {                                                   
+    	String team = (String) jComboBox2.getSelectedItem();
+    	String year = (String) jSpinner1.getValue().toString();
+        queries.bonusQuery(team, year);
+    }
+    //TODO make work: fix query issues
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {                                                   
+        String team = (String) jComboBox2.getSelectedItem();
+    	queries.bonusQuery2(team);
+    }     
+
 
     /**
      * @param args the command line arguments
@@ -877,7 +958,6 @@ public class UI extends javax.swing.JFrame {
         });
     }
 
-    // Variables declaration - do not modify                     
     private javax.swing.JCheckBox AgeBox;
     private javax.swing.JCheckBox AgeBox1;
     private javax.swing.JPanel CoachActionPane;
@@ -923,7 +1003,10 @@ public class UI extends javax.swing.JFrame {
     private javax.swing.JCheckBox WeightBox1;
     private javax.swing.JCheckBox WonBox;
     private javax.swing.JCheckBox WonBox1;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JComboBox<String> jComboBox1;
+    private javax.swing.JComboBox<String> jComboBox2;
     private javax.swing.JFormattedTextField jFormattedTextField1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
@@ -932,6 +1015,8 @@ public class UI extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
+    private javax.swing.JLabel jLabel16;
+    private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -942,8 +1027,9 @@ public class UI extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel10;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JSpinner jSpinner1;
     private javax.swing.JSpinner jSpinner3;
-    private javax.swing.JTextArea jTextArea1;
-    // End of variables declaration                             
+    private javax.swing.JTextArea jTextArea1;                  
 }
