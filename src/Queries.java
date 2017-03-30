@@ -312,5 +312,101 @@ public class Queries {
 		}	
     }
 
-	
+	public ResultSet bonusQuery(String team, String year) {
+		//create table to store results (month & that month's win percentage)
+		String createResultTable = "CREATE GLOBAL TEMPORARY TABLE WinsPerMonth (month char(10), " +
+				"win_percentage NUMBER(5, 2) ON COMMIT PRESERVE ROWS;";
+
+		try {
+			Connection con = UI.getCon();
+			Statement stmt = con.createStatement();
+			stmt.executeQuery(createResultTable);
+		} catch (SQLException ex) {
+			System.out.println("Message: " + ex.getMessage());
+		}
+
+		//get win percentage per month for given team and year
+		for (int i = 1; i <= 12; i++) {
+			String month = null;
+
+			switch (i) {
+				case 1:
+					month = "January";
+					break;
+				case 2:
+					month = "February";
+					break;
+				case 3:
+					month = "March";
+					break;
+				case 4:
+					month = "April";
+					break;
+				case 5:
+					month = "May";
+					break;
+				case 6:
+					month = "June";
+					break;
+				case 7:
+					month = "July";
+					break;
+				case 8:
+					month = "August";
+					break;
+				case 9:
+					month = "September";
+					break;
+				case 10:
+					month = "October";
+					break;
+				case 11:
+					month = "November";
+					break;
+				case 12:
+					month = "December";
+					break;
+				default:
+					month = "Error";
+					break;
+			}
+
+			String month_as_num = (i < 10 ? "0" : "") + i;
+
+			String queryString = "INSERT INTO WinsPerMonth(month, win_percentage) Select '" + month + "'" +
+					"(count(*) as wins from MatchInfo mi, MatchSummary ms where mi.home_team = ms.home_team and " +
+					"mi.away_team = ms.away_team and mi.home_score = ms.home_score and mi.away_score = ms.away_score and " +
+					"(ms.home_team = '" + team + "' or ms.away_team = '" + team + "') and winner = '" + team + "' and " +
+					"date LIKE '" + month_as_num + "-__-" + year + "')*100 / (select count(*) from MatchInfo mi where " +
+					"(ms.home_team = '" + team + "' or ms.away_team = '" + team + "') and " +
+					"date LIKE '" + month_as_num + "-__-" + year + "');";
+
+			try {
+				Connection con = UI.getCon();
+				Statement stmt = con.createStatement();
+
+				stmt.executeUpdate(queryString);
+
+			} catch (SQLException ex) {
+				System.out.println("Message: " + ex.getMessage());
+			}
+		}
+
+		ResultSet rs = null;
+		String getResultTable = "Select * from WinsPerMonth";
+
+		try {
+			Connection con = UI.getCon();
+			Statement stmt = con.createStatement();
+			rs = stmt.executeQuery(getResultTable);
+			ResultSetMetaData rsmd = rs.getMetaData();
+			printResults(rsmd, rs);
+		} catch (SQLException ex) {
+			System.out.println("Message: " + ex.getMessage());
+		}
+
+		return rs;
+	}
+
+
 }
