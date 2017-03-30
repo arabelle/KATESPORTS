@@ -406,7 +406,7 @@ public class Queries {
 		return rs;
 	}
 
-	public ResultSet bonusQuery2(String team) {
+	public void bonusQuery2(String team) {
 		ResultSet rs = null;
 		String queryString = "Select winner, date from MatchInfo mi, MatchSummary ms where " +
 				"mi.home_team = ms.home_team and mi.away_team = ms.away_team and mi.home_score = ms.home_score and " +
@@ -427,17 +427,33 @@ public class Queries {
 						tuple.startDate = rs.getString(2);
 					}
 					tuple.winCount++;
-				} else if (tuple.startDate != null && tuple.endDate == null) {
-					tuple.endDate = rs.getString(2);
-					tuples.add(tuple);
-					tuple = new Tuple();
+				} else {
+					if (tuple.startDate != null && tuple.endDate == null) {
+						tuple.endDate = rs.getString(2);
+						tuples.add(tuple);
+						tuple = new Tuple();
+					}
 				}
 			}
+
+			int maxWins = 0;
+			Tuple streak = null;
+			for (Tuple t: tuples) {
+				if (t.winCount > maxWins) {
+					maxWins = t.winCount;
+					streak = t;
+				}
+			}
+
+			//TODO: display this prettier to user
+			System.out.println("Longest win streak: " + streak.winCount);
+			System.out.println("Streak start date: " + streak.startDate);
+			System.out.println("Streak end date: " + streak.endDate);
+
 
 		} catch (SQLException ex) {
 			System.out.println("Message: " + ex.getMessage());
 		}
-		return rs;
 	}
 
 
