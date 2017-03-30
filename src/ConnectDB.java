@@ -20,7 +20,7 @@ public class ConnectDB implements ActionListener
     // command line reader 
     private BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
 
-    private Connection con;
+    private static Connection con;
 
     // user is allowed 3 login attempts
     private int loginAttempts = 0;
@@ -33,8 +33,8 @@ public class ConnectDB implements ActionListener
     // usertypes:
     // referee = 0
     // coach = 1
-    // PLAYAAA = 2
-    private int USERTYPE = 0;
+    // player = 2
+    private int USERTYPE = 2;
     
     private int REFEREE = 0;
     private int COACH = 1;
@@ -134,7 +134,11 @@ public class ConnectDB implements ActionListener
       }
     }
 
-
+    public static Connection getCon(){
+    	return con;
+    }
+    
+    
     /*
      * connects to Oracle database named ug using user supplied username and password
      */ 
@@ -188,11 +192,13 @@ public class ConnectDB implements ActionListener
 	
 		quit = false;
 		
+		Queries q = new Queries();
+		
 		try {
 		    // disable auto commit mode
 		    con.setAutoCommit(false);
 		    
-		    System.out.println("\n\nPlease select the user type: ");
+		    /*System.out.println("\n\nPlease select the user type: ");
 		    System.out.println("1. REFEREE");
 		    System.out.println("2. COACH");
 		    System.out.print("3. PLAYAA\n>>  ");
@@ -207,7 +213,7 @@ public class ConnectDB implements ActionListener
 		    	case 3:  USERTYPE = 2; break;
 		    }
 		    
-		    System.out.println("Changed user type to " + USERTYPE);
+		    System.out.println("Changed user type to " + USERTYPE);*/
 		    
 		    if (USERTYPE == REFEREE) {
 		    	while (!quit) {
@@ -260,10 +266,11 @@ public class ConnectDB implements ActionListener
 		    else if (USERTYPE == PLAYER) {
 		    	while (!quit) {
 					System.out.print("\n\nPlease choose one of the following: \n");
-					System.out.print("1.  Insert Equipment\n");
-					System.out.print("2.  Delete Equipment\n");
-					System.out.print("3.  Update Equipment\n");
-					System.out.print("4.  Show Equipment\n");
+					System.out.print("1.  Nested Query Biggest\n");
+					System.out.print("2.  Nested Query Smallest\n");
+					System.out.print("3.  Bonus Query\n");
+					System.out.print("12. Bonus Query 2\n");
+					System.out.print("4.  Update Query\n");
 					System.out.print("5.  Selection Query\n");
 					System.out.print("6.  Aggregation Query\n");
 					System.out.print("7.  Division Query\n");
@@ -277,16 +284,17 @@ public class ConnectDB implements ActionListener
 					System.out.println(" ");
 			
 					switch(choice) {
-					   case 1:  insertEquipment(); break;
-					   case 2:  deleteEquipment(); break;
-					   case 3:  updateNameEquipment(); break;
-					   case 4:  showEquipment(); break;
+					   case 1:  q.nestedQueryBiggest(); break;
+					   case 2:  q.nestedQuerySmallest(); break;
+					   case 3:  q.bonusQuery("Hot Cheetos", "2017"); break;
+					   case 4:  q.updateQuery("'01-12-2017 16:31'", 2); break;
 					   case 5:  selectionQuery(); break;
 					   case 6:  aggregationQuery(); break;
-					   case 7:  divisionQuery(); break;
+					   case 7:  q.divisionQuery(); break;
 					   case 8:  joinQuery(); break;
 					   case 9:  showWinners(); break;
 					   case 10: getAvgTeamScores(); break;
+					   case 12:  q.bonusQuery2("Ball Is Life"); break;
 					   case 11:  quit = true;
 					}
 			    }
