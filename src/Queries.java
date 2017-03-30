@@ -153,9 +153,9 @@ public class Queries {
 		String queryString;
 		ResultSet rs = null;
 
-		queryString = "SELECT " + aggtype + "(score) FROM ((select m.home_team as team, m.home_score as score " +
-				"from MatchInfo m where m.home_team ='" + team + "') UNION (select m2.away_team as team, " +
-				"m2.away_score as score from MatchInfo m2 where m2.away_team = '" + team + "'));";
+		queryString = "SELECT " + aggtype + "(temp.score) FROM (select m.home_score as score " +
+				"from MatchInfo m where m.home_team ='" + team + "' UNION ALL select " +
+				"m2.away_score as score from MatchInfo m2 where m2.away_team = '" + team + "') temp;";
 		
 		try {
 			
