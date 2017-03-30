@@ -127,7 +127,7 @@ public class Queries {
 		  else {
 			  return null;
 		  }
-		  queryString = queryString + " FROM Team cwt, Player p WHERE cwt.team_name = p.team_name AND cwt.team_name = '" + teamname + "';";
+		  queryString = queryString + " FROM Team cwt, Player p WHERE cwt.team_name = p.team_name AND cwt.team_name = '" + teamname + "'";
 		  
 		  Connection con = UI.getCon();
 		  
@@ -152,12 +152,13 @@ public class Queries {
     
     public ResultSet aggregationQueryAvgMaxMin(String aggtype, String team) {
     	//this gets avg/max/min score of given team over all games
+    	System.out.println("Aggregating");
 		String queryString;
 		ResultSet rs = null;
 
-		queryString = "SELECT " + aggtype + "(score) FROM ((select m.home_team as team, m.home_score as score " +
-				"from MatchInfo m where m.home_team ='" + team + "') UNION (select (m2.away_team as team, " +
-				"m2.away_score as score from MatchInfo m2 where m2.away_team = '" + team + "'));";
+		queryString = "SELECT " + aggtype + "(score) FROM (select m.home_team as team, m.home_score as score " +
+				"from MatchInfo m where m.home_team ='" + team + "') UNION (select m2.away_team as team, " +
+				"m2.away_score as score from MatchInfo m2 where m2.away_team = '" + team + "')";
 		
 		try {
 			
