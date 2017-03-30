@@ -150,23 +150,14 @@ public class Queries {
 		return rs;
     }
     
-    public ResultSet aggregationQuery(String aggType, String aggFeature, String[] params, String team) {
-    	//Select count(*) from MatchSummary m WHERE m.winner = ‘’;
-    	//this gets the number of wins for given team
-    	String             tname;
-		PreparedStatement  ps;
+    public ResultSet aggregationQueryAvgMaxMin(String aggtype, String team) {
+    	//this gets avg/max/min score of given team over all games
 		String queryString;
 		ResultSet rs = null;
-		
-		queryString = "SELECT " + aggType + "(" + aggFeature + ") ";
-		
-		if(params.length >= 1) {
-		  for(int i = 0; i < params.length; i++) {
-			  queryString = queryString + ", " + params[i];
-		  }
-		}
-		
-		queryString = queryString + " FROM MatchSummary m WHERE m.winner = '" + team + "';";
+
+		queryString = "SELECT " + aggtype + "(score) FROM ((select m.home_team as team, m.home_score as score " +
+				"from MatchInfo m where m.home_team ='" + team + "') UNION (select (m2.away_team as team, " +
+				"m2.away_score as score from MatchInfo m2 where m2.away_team = '" + team + "'));";
 		
 		try {
 			
