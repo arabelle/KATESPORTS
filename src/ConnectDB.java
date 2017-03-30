@@ -458,7 +458,7 @@ public class ConnectDB implements ActionListener
 		PreparedStatement  ps;
 		  
 		try {
-		  ps = con.prepareStatement("UPDATE branch SET item_name = ? WHERE item_id = ?");
+		  ps = con.prepareStatement("UPDATE equipment SET item_name = ? WHERE item_id = ?");
 		
 		  System.out.print("\nEquipment ID: ");
 		  iid = Integer.parseInt(in.readLine());
