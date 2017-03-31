@@ -919,7 +919,7 @@ public class UI extends javax.swing.JFrame {
     //TODO make work: fix query issues
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {                                                   
         String team = (String) jComboBox2.getSelectedItem();
-    	queries.bonusQuery2(team);
+    	//queries.bonusQuery2(team);
     }     
 
 
