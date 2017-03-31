@@ -1036,7 +1036,8 @@ public class UI extends javax.swing.JFrame {
     // Remove player on Coach page.
     // DONE
     private void RemovePlayerButtonActionPerformed(java.awt.event.ActionEvent evt) {                                                   
-        String name = "%"+PlayerToBeRemoved.getText()+"%";
+        if(PlayerToBeRemoved.getText().equals("")) return;
+    	String name = "%"+PlayerToBeRemoved.getText()+"%";
         queries.deleteQuery(name);
     }     
     
