@@ -996,14 +996,8 @@ public class UI extends javax.swing.JFrame {
     private void ViewRefereeActionPerformed(java.awt.event.ActionEvent evt) {                                            
         ResultSet rs = queries.divisionQuery();
         String queryString = "Select * from MatchInfo";
-		try {
-			Statement stmt = con.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_READ_ONLY);
-			rs = stmt.executeQuery(queryString);
-			RefereeTable.setModel(buildTable(rs));
-	    	RefereeTable.validate();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+        RefereeTable.setModel(buildTable(rs));
+    	RefereeTable.validate();
 		
     }                                           
 
