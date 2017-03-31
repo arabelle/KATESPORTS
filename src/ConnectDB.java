@@ -269,15 +269,15 @@ public class ConnectDB implements ActionListener
 					System.out.print("1.  Nested Query Biggest\n");
 					System.out.print("2.  Nested Query Smallest\n");
 					System.out.print("3.  Bonus Query\n");
-					System.out.print("12. Bonus Query 2\n");
 					System.out.print("4.  Update Query\n");
-					System.out.print("5.  Selection Query\n");
-					System.out.print("6.  Aggregation Query\n");
-					System.out.print("7.  Division Query\n");
-					System.out.print("8.  Join Query\n");
-					System.out.print("9.  Show Winners\n");
-					System.out.print("10. Get Average Team Scores\n");
-					System.out.print("11.  Quit\n>> ");
+					System.out.print("5.  Agg. Query Max Min\n");
+					System.out.print("6.  Division Query\n");
+					System.out.print("7.  Bonus Query 2 Grannies\n");
+					System.out.print("8.  Bonus Query 2 AndroidT\n");
+					System.out.print("9.  Bonus Query 2 Hot Cheetos\n");
+					System.out.print("10. Bonus Query 2 Ball Is Life\n");
+					System.out.print("12. Bonus Query 2 Non-Losers\n");
+					System.out.print("14.  Quit\n>> ");
 			
 					choice = Integer.parseInt(in.readLine());
 					
@@ -286,16 +286,16 @@ public class ConnectDB implements ActionListener
 					switch(choice) {
 					   case 1:  q.nestedQueryBiggest(); break;
 					   case 2:  q.nestedQuerySmallest(); break;
-					   case 3:  q.bonusQuery("Hot Cheetos", "2017"); break;
-					   case 4:  q.updateQuery("'01-12-2017 16:31'", 2); break;
-					   case 5:  selectionQuery(); break;
-					   case 6:  aggregationQuery(); break;
-					   case 7:  q.divisionQuery(); break;
-					   case 8:  joinQuery(); break;
-					   case 9:  showWinners(); break;
-					   case 10: getAvgTeamScores(); break;
-					   case 12:  q.bonusQuery2("Ball Is Life"); break;
-					   case 11:  quit = true;
+					   case 3:  q.bonusQuery("AndroidT", "2017"); break;
+					   case 4:  q.updateQuery("01-12-2017 16:31", 2); break;
+					   case 5:  q.aggregationQueryAvgMaxMin("count", "Grannies"); break;
+					   case 6:  q.divisionQuery(); break;
+					   case 7:  q.bonusQuery2("Grannies"); break;
+					   case 8:  q.bonusQuery2("AndroidT"); break;
+					   case 9:  q.bonusQuery2("Hot Cheetos"); break;
+					   case 10:  q.bonusQuery2("Ball Is Life"); break;
+					   case 12:  q.bonusQuery2("Non-Losers"); break;
+					   case 14:  quit = true;
 					}
 			    }
 		    }
@@ -515,43 +515,14 @@ public class ConnectDB implements ActionListener
 		try {
 		  stmt = con.createStatement();
 	
-		  rs = stmt.executeQuery("SELECT * FROM equipment");
+		  rs = stmt.executeQuery("SELECT * FROM matchinfo");
 	
 		  // get info on ResultSet
 		  ResultSetMetaData rsmd = rs.getMetaData();
 	
-		  // get number of columns
-		  int numCols = rsmd.getColumnCount();
-	
-		  System.out.println(" ");
-		  
-		  // display column names;
-		  for (int i = 0; i < numCols; i++) {
-		      // get column name and print it
-	
-		      System.out.printf("%-15s", rsmd.getColumnName(i+1));    
-		  }
-	
 		  System.out.println(" ");
 	
-		  while(rs.next()) {
-		      // for display purposes get everything from Oracle 
-		      // as a string
-	
-		      // simplified output formatting; truncation may occur
-	
-		      iid = rs.getString("item_id");
-		      System.out.printf("%-10.10s", iid);
-	
-		      itype = rs.getString("item_type");
-		      System.out.printf("%-15.15s", itype);
-		      
-		      iname = rs.getString("item_name");
-		      System.out.printf("%-20.20s", iname);
-		      
-		      System.out.print("\n");
-	
-		  }
+		  printResults(rsmd, rs);
 	 
 		  // close the statement; 
 		  // the ResultSet will also be closed
