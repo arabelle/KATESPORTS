@@ -221,7 +221,8 @@ public class Queries {
     	ResultSet rs = null;
     	System.out.println("Referee who refd all teams: ");
         String divisionQueryString = "SELECT name FROM Referee r WHERE NOT EXISTS ( SELECT * from Team t WHERE NOT EXISTS (Select * from MatchInfo m WHERE m.ref_id = r.ref_id AND (t.team_name = m.home_team OR t.team_name = m.away_team)))";
-        try {
+        //String divisionQueryString = "Select * from mtea";
+    	try {
         	Connection con = UI.getCon();
             Statement stmt = con.createStatement();
             rs = stmt.executeQuery(divisionQueryString);
@@ -243,7 +244,7 @@ public class Queries {
     	Connection con = UI.getCon();
     	try
     	{
-    	  ps = con.prepareStatement("DELETE FROM Players WHERE name LIKE ?");
+    	  ps = con.prepareStatement("DELETE FROM Player WHERE name LIKE ?");
     	
     	  ps.setString(1, nameregex);
 
@@ -406,58 +407,57 @@ public class Queries {
 
 		return rs;
 	}
-}
 
-//	public void bonusQuery2(String team) {
-//		ResultSet rs = null;
-//		String queryString = "Select winner, date from MatchInfo mi, MatchSummary ms where " +
-//				"mi.home_team = ms.home_team and mi.away_team = ms.away_team and mi.home_score = ms.home_score and " +
-//				"mi.away_score = ms.away_score and (ms.home_team = '" + team + "' or ms.away_team = '" + team + "') " +
-//				"ORDER BY date";
-//		try {
-//			Connection con = UI.getCon();
-//			Statement stmt = con.createStatement();
-//			rs = stmt.executeQuery(queryString);
-//			ResultSetMetaData rsmd = rs.getMetaData();
-//
-//			Tuple tuple = new Tuple();
-//			List<Tuple> tuples = new ArrayList<>();
-//
-//			while (rs.next()) {
-//				if (rs.getString(1).equals(team)) {
-//					if (tuple.startDate == null) {
-//						tuple.startDate = rs.getString(2);
-//					}
-//					tuple.winCount++;
-//				} else {
-//					if (tuple.startDate != null && tuple.endDate == null) {
-//						tuple.endDate = rs.getString(2);
-//						tuples.add(tuple);
-//						tuple = new Tuple();
-//					}
-//				}
-//			}
-//
-//			int maxWins = 0;
-//			Tuple streak = null;
-//			for (Tuple t: tuples) {
-//				if (t.winCount > maxWins) {
-//					maxWins = t.winCount;
-//					streak = t;
-//				}
-//			}
-//
-//			//TODO: display this prettier to user
-//			System.out.println("Longest win streak: " + streak.winCount);
-//			System.out.println("Streak start date: " + streak.startDate);
-//			System.out.println("Streak end date: " + streak.endDate);
-//
-//
-//		} catch (SQLException ex) {
-//			System.out.println("Message: " + ex.getMessage());
-//		}
-//	}
-//
-//
-//
-//}
+	public void bonusQuery2(String team) {
+		ResultSet rs = null;
+		String queryString = "Select winner, date from MatchInfo mi, MatchSummary ms where " +
+				"mi.home_team = ms.home_team and mi.away_team = ms.away_team and mi.home_score = ms.home_score and " +
+				"mi.away_score = ms.away_score and (ms.home_team = '" + team + "' or ms.away_team = '" + team + "') " +
+				"ORDER BY date";
+		try {
+			Connection con = UI.getCon();
+			Statement stmt = con.createStatement();
+			rs = stmt.executeQuery(queryString);
+			ResultSetMetaData rsmd = rs.getMetaData();
+
+			Tuple tuple = new Tuple();
+			List<Tuple> tuples = new ArrayList<>();
+
+			while (rs.next()) {
+				if (rs.getString(1).equals(team)) {
+					if (tuple.startDate == null) {
+						tuple.startDate = rs.getString(2);
+					}
+					tuple.winCount++;
+				} else {
+					if (tuple.startDate != null && tuple.endDate == null) {
+						tuple.endDate = rs.getString(2);
+						tuples.add(tuple);
+						tuple = new Tuple();
+					}
+				}
+			}
+
+			int maxWins = 0;
+			Tuple streak = null;
+			for (Tuple t: tuples) {
+				if (t.winCount > maxWins) {
+					maxWins = t.winCount;
+					streak = t;
+				}
+			}
+
+			//TODO: display this prettier to user
+			System.out.println("Longest win streak: " + streak.winCount);
+			System.out.println("Streak start date: " + streak.startDate);
+			System.out.println("Streak end date: " + streak.endDate);
+
+
+		} catch (SQLException ex) {
+			System.out.println("Message: " + ex.getMessage());
+		}
+	}
+
+
+
+}
