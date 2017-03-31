@@ -221,7 +221,8 @@ public class Queries {
     	ResultSet rs = null;
     	System.out.println("Referee who refd all teams: ");
         String divisionQueryString = "SELECT name FROM Referee r WHERE NOT EXISTS ( SELECT * from Team t WHERE NOT EXISTS (Select * from MatchInfo m WHERE m.ref_id = r.ref_id AND (t.team_name = m.home_team OR t.team_name = m.away_team)))";
-        try {
+        //String divisionQueryString = "Select * from mtea";
+    	try {
         	Connection con = UI.getCon();
             Statement stmt = con.createStatement();
             rs = stmt.executeQuery(divisionQueryString);
@@ -243,7 +244,7 @@ public class Queries {
     	Connection con = UI.getCon();
     	try
     	{
-    	  ps = con.prepareStatement("DELETE FROM Players WHERE name LIKE ?");
+    	  ps = con.prepareStatement("DELETE FROM Player WHERE name LIKE ?");
 
     	  ps.setString(1, nameregex);
 
