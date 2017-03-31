@@ -314,7 +314,7 @@ public class Queries {
 
 	public ResultSet bonusQuery(String team, String year) {
 		//create table to store results (month & that month's win percentage)
-		String createResultTable = "CREATE GLOBAL TEMPORARY TABLE WinsPerMonth (month char(10), win_percentage NUMBER(5, 2)) ON COMMIT PRESERVE ROWS;";
+		String createResultTable = "CREATE GLOBAL TEMPORARY TABLE WinsPerMonth (month char(10), win_percentage NUMBER(5, 2)) ON COMMIT PRESERVE ROWS";
 
 		try {
 			Connection con = UI.getCon();
@@ -383,8 +383,8 @@ public class Queries {
 					"(select count(*) from MatchInfo mi, MatchSummary ms where mi.home_team = ms.home_team and " +
 					"mi.away_team = ms.away_team and mi.home_score = ms.home_score and mi.away_score = ms.away_score and " +
 					"(ms.home_team = '" + team + "' or ms.away_team = '" + team + "') and end_time BETWEEN " +
-					"DATE '" + year + "-"+ month_as_num + "-01' AND DATE ''" + year + "-"+ next_month_as_num + "-01')) " +
-					"as win_percentage FROM DUAL;";
+					"DATE '" + year + "-"+ month_as_num + "-01' AND DATE '" + year + "-"+ next_month_as_num + "-01')) " +
+					"as win_percentage FROM DUAL";
 			/*
 			INSERT INTO WinsPerMonth(month, win_percentage) Select 'February', ((select count(*) from MatchInfo mi,
 			MatchSummary ms where mi.home_team = ms.home_team and mi.away_team = ms.away_team and
