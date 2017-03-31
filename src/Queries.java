@@ -9,17 +9,17 @@ import java.util.*;
 
 
 public class Queries {
-	
-	// command line reader 
+
+	// command line reader
     private BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
 
 	 /*CREATE GLOBAL TEMPORARY TABLE AvgTeamScores
-	    ON COMMIT PRESERVE ROWS 
+	    ON COMMIT PRESERVE ROWS
 	    AS Select team, avg(score) as avg_score from ((Select home_team as team, home_score as score from MatchSummary) UNION ALL (select away_team as team, away_score as score from MatchSummary)) GROUP BY team
 	 //get average score per team
 	 Select team from AvgTeamScores ats where ats.avg_score >= ALL (select avg_score from AvgTeamScores)
 	 //get team with biggest average */
-    
+
     public ResultSet nestedQueryBiggest() {
     	ResultSet rs = null;
     	String nestedQueryString = "WITH AvgTeamScores AS (Select team, avg(score) as avg_score from ((Select home_team as team, " +
@@ -38,13 +38,13 @@ public class Queries {
     	return rs;
     }
 
-    
+
     public ResultSet nestedQuerySmallest() {
     	ResultSet rs = null;
     	String nestedQueryString = "WITH AvgTeamScores AS (Select team, avg(score) as avg_score from ((Select home_team as team, " +
     							   "home_score as score from MatchSummary) UNION ALL (select away_team as team, " +
     							   "away_score as score from MatchSummary)) GROUP BY team) ";
-    	
+
     	String query = "Select team from AvgTeamScores ats where ats.avg_score <= ALL (select avg_score from AvgTeamScores)";
         try {
         	Connection con = UI.getCon();
@@ -57,10 +57,10 @@ public class Queries {
         }
     	return rs;
     }
-    
+
     /*
      * display information about branches
-     */ 
+     */
     public ResultSet selectPlayer(String[] params, String name ) {
 		String     iid;
 		String     itype;
@@ -68,7 +68,7 @@ public class Queries {
 		Statement  stmt;
 		ResultSet  rs = null;
 		String queryString;
-		   
+
 		try {
 		  queryString = "SELECT ";
 		  if(params.length >= 1) {
@@ -81,18 +81,18 @@ public class Queries {
 			  return null;
 		  }
 		  queryString = queryString + " FROM Player WHERE name like '" + name + "'";
-		  
+
 		  Connection con = UI.getCon();
 		  stmt = con.createStatement();
-	
+
 		  rs = stmt.executeQuery(queryString);
-	
+
 		  // get info on ResultSet
 		  ResultSetMetaData rsmd = rs.getMetaData();
-		  
+
 		  printResults(rsmd, rs);
-	 
-		  // close the statement; 
+
+		  // close the statement;
 		  // the ResultSet will also be closed
 		  //stmt.close();
 		}
@@ -101,8 +101,8 @@ public class Queries {
 		}
 		return rs;
     }
-    
-    
+
+
     /*Select * from Team cwt, Player p where cwt.team_name = p.team_name AND cwt.team_name = ‘’;
     (user will specify team name and which attributes to select)*/
     //this gets the given team’s roster
@@ -113,7 +113,7 @@ public class Queries {
 		Statement  stmt;
 		ResultSet  rs = null;
 		String queryString;
-		   
+
 		try {
 		  queryString = "SELECT ";
 		  if(params.length >= 1) {
@@ -126,19 +126,19 @@ public class Queries {
 			  return null;
 		  }
 		  queryString = queryString + " FROM Team cwt, Player p WHERE cwt.team_name = p.team_name AND cwt.team_name = '" + teamname + "'";
-		  
+
 		  Connection con = UI.getCon();
-		  
+
 		  stmt = con.createStatement();
-	
+
 		  rs = stmt.executeQuery(queryString);
-	
+
 		  // get info on ResultSet
 		  ResultSetMetaData rsmd = rs.getMetaData();
-		  
+
 		  printResults(rsmd, rs);
-	 
-		  // close the statement; 
+
+		  // close the statement;
 		  // the ResultSet will also be closed
 		  //stmt.close();
 		}
@@ -147,38 +147,38 @@ public class Queries {
 		}
 		return rs;
     }
-    
+
     public ResultSet aggregationQueryAvgMaxMin(String aggtype, String team) {
     	//this gets avg/max/min score of given team over all games
 		String queryString;
 		ResultSet rs = null;
-		
+
 		queryString = "SELECT "+aggtype+"(score) FROM (select m.home_score as score " +
 				"from MatchSummary m where m.home_team ='" + team + "' UNION ALL select " +
 				"m2.away_score as score from MatchSummary m2 where m2.away_team = '" + team + "') score";
-		
+
 		try {
-			
+
 		  Connection con = UI.getCon();
-		  
+
 		  Statement stmt = con.createStatement();
 		  rs = stmt.executeQuery(queryString);
-			
+
 		  // get info on ResultSet
 		  ResultSetMetaData rsmd = rs.getMetaData();
-		  
+
 		  printResults(rsmd, rs);
-	
+
 		}
 		catch (SQLException ex) {
 			System.out.println("Message: " + ex.getMessage());
-		}	
+		}
 		return rs;
     }
-    
+
     private void printResults(ResultSetMetaData rsmd, ResultSet result) throws SQLException{
     	while(result.next()) {
-  	      // for display purposes get everything from Oracle 
+  	      // for display purposes get everything from Oracle
   	      // as a string
     	int numCols = rsmd.getColumnCount();
   	      // simplified output formatting; truncation may occur
@@ -207,13 +207,13 @@ public class Queries {
   				  System.out.println("WHAT");
   			  }
   		  }
-  	      
+
   	      System.out.print("\n");
 
   	  }
     }
-    
-    
+
+
     // Select name from Referee r WHERE NOT EXISTS (Select * from Team t WHERE NOT EXISTS (Select * from MatchInfo m WHERE m.ref_id = r.ref_id AND (t.team_name = m.home_team or t.team_name = m.away_team))
     //this returns the names of referees who have ref’d every team
     //should be Harry Jordan
@@ -234,8 +234,8 @@ public class Queries {
         }
         return rs;
     }
-    
-    
+
+
     //Delete from Players where name like ‘Emilio%’; //no rentals to delete
     //Delete from Players where name like ‘Bob%’; //many rentals get deleted
     // user specifies the name
@@ -245,7 +245,7 @@ public class Queries {
     	try
     	{
     	  ps = con.prepareStatement("DELETE FROM Player WHERE name LIKE ?");
-    	
+
     	  ps.setString(1, nameregex);
 
     	  int rowCount = ps.executeUpdate();
@@ -263,9 +263,9 @@ public class Queries {
     	{
     	    System.out.println("Message: " + ex.getMessage());
 
-                try 
+                try
     	    {
-    		con.rollback();	
+    		con.rollback();
     	    }
     	    catch (SQLException ex2)
     	    {
@@ -274,7 +274,7 @@ public class Queries {
     	    }
     	}
     }
-    
+
     /*UPDATE MatchInfo SET end_time = ‘01-12-2017 16:30’ WHERE match_id = 2 //this is fine
       UPDATE MatchInfo SET end_time = ‘01-12-2017 14:30’ WHERE match_id = 2 //this fails the check
       UPDATE MatchInfo SET end_time = ‘01-11-2017 16:30’ WHERE match_id = 2 //this fails the check
@@ -286,30 +286,30 @@ public class Queries {
 		Connection con = UI.getCon();
 		try {
 		  ps = con.prepareStatement("UPDATE MatchInfo SET end_time = ? WHERE match_id = ?");
-		
+
 		  ps.setString(1, endtime);
 		  ps.setInt(2, matchid);
-	
+
 		  int rowCount = ps.executeUpdate();
 		  if (rowCount == 0) {
 		      System.out.println("\nMatchID" + matchid + " does not exist!");
 		  }
-	
+
 		  con.commit();
-	
+
 		  ps.close();
 		}
 		catch (SQLException ex) {
 		    System.out.println("Message: " + ex.getMessage());
-		    
+
 		    try {
-		    	con.rollback();	
+		    	con.rollback();
 		    }
 		    catch (SQLException ex2) {
 				System.out.println("Message: " + ex2.getMessage());
 				System.exit(-1);
 		    }
-		}	
+		}
     }
 
 	public ResultSet bonusQuery(String team, String year) {
@@ -423,12 +423,21 @@ public class Queries {
 		return rs;
 	}
 
+
 	public void bonusQuery2(String team) {
 		ResultSet rs = null;
-		String queryString = "Select winner, date from MatchInfo mi, MatchSummary ms where " +
-				"mi.home_team = ms.home_team and mi.away_team = ms.away_team and mi.home_score = ms.home_score and " +
-				"mi.away_score = ms.away_score and (ms.home_team = '" + team + "' or ms.away_team = '" + team + "') " +
-				"ORDER BY date";
+		String queryString = "\n" +
+				"Select ms.winner, to_char(mi.end_time, 'MM-DD-YYYY') \"DATE\" from MatchInfo mi, " +
+				"MatchSummary ms where mi.home_team = ms.home_team and mi.away_team = ms.away_team and " +
+				"mi.home_score = ms.home_score and mi.away_score = ms.away_score and (ms.home_team = '" + team + "' or " +
+				"ms.away_team = '" + team + "') ORDER BY to_char(mi.end_time, 'MM-DD-YYYY HH24:MM')";
+
+		/*
+		Select ms.winner, to_char(mi.end_time, 'MM-DD-YYYY') "DATE" from MatchInfo mi, MatchSummary ms where
+		mi.home_team = ms.home_team and mi.away_team = ms.away_team and mi.home_score = ms.home_score and
+		mi.away_score = ms.away_score and (ms.home_team = 'Grannies' or ms.away_team = 'Grannies')
+		ORDER BY to_char(mi.end_time, 'MM-DD-YYYY HH24:MM')
+		 */
 		try {
 			Connection con = UI.getCon();
 			Statement stmt = con.createStatement();
