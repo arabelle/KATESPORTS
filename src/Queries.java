@@ -1,10 +1,10 @@
 // We need to import the java.sql package to use JDBC
 import java.sql.*;
+import java.sql.Date;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 // for reading from the command line
 import java.io.*;
-
-// for the login window
-
 import java.util.*;
 
 
@@ -275,6 +275,21 @@ public class Queries {
     	}
     }
 
+    public Timestamp processTime(String time) {
+    	String pattern = "MM-dd-yyyy HH:mm";
+    	SimpleDateFormat dateFormat = new SimpleDateFormat(pattern);
+    	java.util.Date res;
+    	Timestamp result = null;
+    	try {
+	    	res = dateFormat.parse(time);
+	    	result = new java.sql.Timestamp(res.getTime());
+    	} catch (ParseException ex) {
+    		System.out.println("ParseException! Message: " + ex.getMessage());
+    	}
+    	System.out.println(result.toString());
+    	return result;
+    }
+    
     /*UPDATE MatchInfo SET end_time = ‘01-12-2017 16:30’ WHERE match_id = 2 //this is fine
       UPDATE MatchInfo SET end_time = ‘01-12-2017 14:30’ WHERE match_id = 2 //this fails the check
       UPDATE MatchInfo SET end_time = ‘01-11-2017 16:30’ WHERE match_id = 2 //this fails the check
@@ -285,25 +300,33 @@ public class Queries {
 		PreparedStatement  ps;
 		Connection con = UI.getCon();
 		try {
+			/*
+			 * 
+			 * TODO: we need to change the time to SimpleDateFormat, and add it to the
+			 * query.
+			 */
 		  ps = con.prepareStatement("UPDATE MatchInfo SET end_time = ? WHERE match_id = ?");
-
-		  ps.setString(1, endtime);
+		  
+		  Timestamp date = processTime(endtime);		
+		  ps.setTimestamp(1, date);
 		  ps.setInt(2, matchid);
+		  
 
+	
 		  int rowCount = ps.executeUpdate();
 		  if (rowCount == 0) {
 		      System.out.println("\nMatchID" + matchid + " does not exist!");
 		  }
-
+	
 		  con.commit();
-
+	
 		  ps.close();
 		}
 		catch (SQLException ex) {
 		    System.out.println("Message: " + ex.getMessage());
-
+		    
 		    try {
-		    	con.rollback();
+		    	con.rollback();	
 		    }
 		    catch (SQLException ex2) {
 				System.out.println("Message: " + ex2.getMessage());
@@ -311,6 +334,7 @@ public class Queries {
 		    }
 		}
     }
+    
 
 	public ResultSet bonusQuery(String team, String year) {
 		//create table to store results (month & that month's win percentage)
@@ -461,6 +485,10 @@ public class Queries {
 					}
 				}
 			}
+			
+			if (tuple.startDate != null && tuple.endDate == null) {
+				tuples.add(tuple);
+			}
 
 			int maxWins = 0;
 			Tuple streak = null;
@@ -472,9 +500,19 @@ public class Queries {
 			}
 
 			//TODO: display this prettier to user
-			System.out.println("Longest win streak: " + streak.winCount);
-			System.out.println("Streak start date: " + streak.startDate);
-			System.out.println("Streak end date: " + streak.endDate);
+			if (streak != null) {
+				System.out.println("Longest win streak: " + streak.winCount);
+				System.out.println("Streak start date: " + streak.startDate);
+				if (streak.endDate != null) {
+					System.out.println("Streak end date: " + streak.endDate);
+				}
+				else {
+					System.out.println("Streak end date: ongoing");
+				}
+			}
+			else {
+				System.out.println("No streak exists.");
+			}
 
 
 		} catch (SQLException ex) {
