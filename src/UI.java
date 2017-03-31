@@ -15,6 +15,7 @@ import java.util.Vector;
 
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.JTableHeader;
 
 
 
@@ -45,6 +46,7 @@ public class UI extends javax.swing.JFrame {
         initComponents();
         PlayerTableModel = new DefaultTableModel();
         PlayerTable.setModel(PlayerTableModel);
+        
         
         String connectURL = "jdbc:oracle:thin:@localhost.ugrad.cs.ubc.ca:1522:ug";
 
@@ -81,7 +83,6 @@ public class UI extends javax.swing.JFrame {
 			RefereeTable.setModel(buildTable(rs));
 	    	RefereeTable.validate();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
@@ -92,6 +93,8 @@ public class UI extends javax.swing.JFrame {
     public static Connection getCon() {
     	return con;
     }
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">                          
+     // <editor-fold defaultstate="collapsed" desc="Generated Code">                          
     private void initComponents() {
 
         jFormattedTextField1 = new javax.swing.JFormattedTextField();
@@ -100,7 +103,6 @@ public class UI extends javax.swing.JFrame {
         PlayerInfoPane = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         PlayerName = new javax.swing.JTextField();
-        ViewPlayerStats = new javax.swing.JButton();
         ViewPlayerInfo = new javax.swing.JButton();
         WeightBox1 = new javax.swing.JCheckBox();
         WonBox1 = new javax.swing.JCheckBox();
@@ -110,6 +112,7 @@ public class UI extends javax.swing.JFrame {
         PhoneNumberBox1 = new javax.swing.JCheckBox();
         AgeBox1 = new javax.swing.JCheckBox();
         jLabel11 = new javax.swing.JLabel();
+        LostBox2 = new javax.swing.JCheckBox();
         PlayerTablePane = new javax.swing.JScrollPane();
         PlayerTable = new javax.swing.JTable();
         jPanel2 = new javax.swing.JPanel();
@@ -130,8 +133,17 @@ public class UI extends javax.swing.JFrame {
         GameID = new javax.swing.JSpinner();
         jLabel6 = new javax.swing.JLabel();
         UpdateGameTime = new javax.swing.JButton();
-        jSpinner3 = new javax.swing.JSpinner();
         jLabel7 = new javax.swing.JLabel();
+        jSpinner2 = new javax.swing.JSpinner();
+        jLabel18 = new javax.swing.JLabel();
+        jLabel19 = new javax.swing.JLabel();
+        jLabel20 = new javax.swing.JLabel();
+        jLabel21 = new javax.swing.JLabel();
+        jLabel22 = new javax.swing.JLabel();
+        jSpinner4 = new javax.swing.JSpinner();
+        jSpinner5 = new javax.swing.JSpinner();
+        jSpinner6 = new javax.swing.JSpinner();
+        jSpinner7 = new javax.swing.JSpinner();
         RefereeTablePane = new javax.swing.JScrollPane();
         RefereeTable = new javax.swing.JTable();
         CoachPane = new javax.swing.JPanel();
@@ -177,13 +189,6 @@ public class UI extends javax.swing.JFrame {
 
         jLabel2.setText("Player Name:");
 
-        ViewPlayerStats.setText("View Player Stats");
-        ViewPlayerStats.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ViewPlayerStatsActionPerformed(evt);
-            }
-        });
-
         ViewPlayerInfo.setText("View Player Info");
         ViewPlayerInfo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -201,29 +206,18 @@ public class UI extends javax.swing.JFrame {
 
         NameBox1.setText("Name");
         
-
         PhoneNumberBox1.setText("Phone Number");
 
         AgeBox1.setText("Age");
 
         jLabel11.setText("Select Attributes to display");
 
+        LostBox2.setText("Team");
+
         javax.swing.GroupLayout PlayerInfoPaneLayout = new javax.swing.GroupLayout(PlayerInfoPane);
         PlayerInfoPane.setLayout(PlayerInfoPaneLayout);
         PlayerInfoPaneLayout.setHorizontalGroup(
             PlayerInfoPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(PlayerInfoPaneLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(PlayerInfoPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(PlayerInfoPaneLayout.createSequentialGroup()
-                        .addComponent(jLabel2)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(PlayerInfoPaneLayout.createSequentialGroup()
-                        .addGroup(PlayerInfoPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(ViewPlayerInfo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(ViewPlayerStats, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(PlayerName, javax.swing.GroupLayout.Alignment.TRAILING))
-                        .addContainerGap())))
             .addGroup(PlayerInfoPaneLayout.createSequentialGroup()
                 .addGroup(PlayerInfoPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(PlayerInfoPaneLayout.createSequentialGroup()
@@ -235,11 +229,22 @@ public class UI extends javax.swing.JFrame {
                             .addComponent(AgeBox1)
                             .addComponent(PhoneNumberBox1)
                             .addComponent(NameBox1)
-                            .addComponent(IDBox1)))
+                            .addComponent(IDBox1)
+                            .addComponent(LostBox2)))
                     .addGroup(PlayerInfoPaneLayout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(jLabel11)))
                 .addGap(0, 0, Short.MAX_VALUE))
+            .addGroup(PlayerInfoPaneLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(PlayerInfoPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(PlayerInfoPaneLayout.createSequentialGroup()
+                        .addComponent(jLabel2)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(PlayerInfoPaneLayout.createSequentialGroup()
+                        .addComponent(PlayerName)
+                        .addContainerGap())
+                    .addComponent(ViewPlayerInfo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
         PlayerInfoPaneLayout.setVerticalGroup(
             PlayerInfoPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -264,9 +269,9 @@ public class UI extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(LostBox1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(LostBox2)
+                .addGap(10, 10, 10)
                 .addComponent(ViewPlayerInfo)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(ViewPlayerStats)
                 .addContainerGap())
         );
 
@@ -424,10 +429,27 @@ public class UI extends javax.swing.JFrame {
             }
         });
 
-        jSpinner3.setModel(new javax.swing.SpinnerDateModel(new java.util.Date(946749600000L), null, null, java.util.Calendar.MINUTE));
-        jSpinner3.setBorder(null);
-
         jLabel7.setText("Game ID");
+
+        jSpinner2.setModel(new javax.swing.SpinnerNumberModel(1, 1, 12, 1));
+
+        jLabel18.setText("Month");
+
+        jLabel19.setText("Day");
+
+        jLabel20.setText("Year");
+
+        jLabel21.setText("Hour (24)");
+
+        jLabel22.setText("Minute");
+
+        jSpinner4.setModel(new javax.swing.SpinnerNumberModel(1, 1, 31, 1));
+
+        jSpinner5.setModel(new javax.swing.SpinnerNumberModel(2000, 2000, 2017, 1));
+
+        jSpinner6.setModel(new javax.swing.SpinnerNumberModel(0, 0, 23, 1));
+
+        jSpinner7.setModel(new javax.swing.SpinnerNumberModel(0, 0, 60, 1));
 
         javax.swing.GroupLayout RefereeActionsPaneLayout = new javax.swing.GroupLayout(RefereeActionsPane);
         RefereeActionsPane.setLayout(RefereeActionsPaneLayout);
@@ -436,18 +458,36 @@ public class UI extends javax.swing.JFrame {
             .addGroup(RefereeActionsPaneLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(RefereeActionsPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jSpinner3, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, RefereeActionsPaneLayout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(UpdateGameTime, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(RefereeActionsPaneLayout.createSequentialGroup()
-                        .addComponent(jLabel7)
-                        .addGap(40, 40, 40)
-                        .addComponent(GameID, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(RefereeActionsPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, RefereeActionsPaneLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(UpdateGameTime, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(RefereeActionsPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(RefereeActionsPaneLayout.createSequentialGroup()
+                                .addComponent(jLabel7)
+                                .addGap(40, 40, 40)
+                                .addComponent(GameID, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(RefereeActionsPaneLayout.createSequentialGroup()
+                                .addGroup(RefereeActionsPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel18)
+                                    .addComponent(jLabel19)
+                                    .addComponent(jLabel20))
+                                .addGap(33, 33, 33)
+                                .addGroup(RefereeActionsPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(jSpinner5)
+                                    .addComponent(jSpinner2)
+                                    .addComponent(jSpinner4)))
+                            .addGroup(RefereeActionsPaneLayout.createSequentialGroup()
+                                .addGroup(RefereeActionsPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel21)
+                                    .addComponent(jLabel22))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(RefereeActionsPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(jSpinner6, javax.swing.GroupLayout.DEFAULT_SIZE, 79, Short.MAX_VALUE)
+                                    .addComponent(jSpinner7))))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         RefereeActionsPaneLayout.setVerticalGroup(
@@ -461,9 +501,27 @@ public class UI extends javax.swing.JFrame {
                     .addComponent(jLabel7))
                 .addGap(36, 36, 36)
                 .addComponent(jLabel6)
-                .addGap(18, 18, 18)
-                .addComponent(jSpinner3, javax.swing.GroupLayout.DEFAULT_SIZE, 22, Short.MAX_VALUE)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(RefereeActionsPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jSpinner2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel18))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(RefereeActionsPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel19)
+                    .addComponent(jSpinner4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(RefereeActionsPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel20)
+                    .addComponent(jSpinner5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(RefereeActionsPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel21)
+                    .addComponent(jSpinner6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(RefereeActionsPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel22)
+                    .addComponent(jSpinner7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 36, Short.MAX_VALUE)
                 .addComponent(UpdateGameTime, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(22, 22, 22))
         );
@@ -482,7 +540,7 @@ public class UI extends javax.swing.JFrame {
                 .addComponent(RefereeInfoPane, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(RefereeActionsPane, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(151, Short.MAX_VALUE))
+                .addContainerGap(22, Short.MAX_VALUE))
         );
 
         RefereeTable.setModel(new javax.swing.table.DefaultTableModel(
@@ -538,7 +596,6 @@ public class UI extends javax.swing.JFrame {
 
         NameBox.setText("Name");
         
-
         PhoneNumberBox.setText("Phone Number");
 
         AgeBox.setText("Age");
@@ -834,9 +891,9 @@ public class UI extends javax.swing.JFrame {
         );
 
         pack();
-    }// </editor-fold>                        
+    }// </editor-fold>  
 
-    
+     
 
 	// Button for showing the roster on coach page.
     // DONE 
@@ -863,19 +920,50 @@ public class UI extends javax.swing.JFrame {
     	String teamname = (String) TeamDropdown2.getSelectedItem();
     	String aggtype = (String) jComboBox1.getSelectedItem();
     	ResultSet rs = queries.aggregationQueryAvgMaxMin(aggtype, teamname);
+    	if(aggtype.equals("Avg"))
+    		jTextArea1.setText(teamname + " has a goals per game average of:\n");
+    	else if(aggtype.equals("Max"))
+    		jTextArea1.setText(teamname + " has a max goals per game of:\n");
+    	else
+    		jTextArea1.setText(teamname + " has a minimum goals per game of:\n");
+    	try {
+    		rs.first();
+			System.out.print(rs.getString(1));
+			jTextArea1.append(rs.getString(1));
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
     }                                            
     
     // Teams with most goals.
     // DONE
     private void GetGoalsAverageActionPerformed(java.awt.event.ActionEvent evt) {                                                
-        // TODO add your handling code here:
+
     	ResultSet rs = queries.nestedQueryBiggest();
+    	
+    	jTextArea1.setText("Team with the most goals scored:\n");
+    	try {
+    		rs.first();
+			System.out.print(rs.getString(1));
+			jTextArea1.append(rs.getString(1));
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+    	
     }                 
     // Teams with the fewest goals.
     // DONE
     protected void GetGoalsAverage1ActionPerformed(ActionEvent evt) {
-		// TODO Auto-generated method stub
+
     	ResultSet rs = queries.nestedQuerySmallest();
+    	jTextArea1.setText("Team with the fewest goals scored:\n");
+    	try {
+    		rs.first();
+			System.out.print(rs.getString(1));
+			jTextArea1.append(rs.getString(1));
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 
     // View Player info button on player page.
@@ -890,37 +978,59 @@ public class UI extends javax.swing.JFrame {
     	if(WeightBox1.isSelected()) paramlist.add("weight");
     	if(WonBox1.isSelected()) paramlist.add("matches_won");
     	if(LostBox1.isSelected()) paramlist.add("matches_lost");
+    	if(LostBox2.isSelected()) paramlist.add("team_name");
     	
     	String[] params = paramlist.toArray(new String[paramlist.size()]);
         String name = (String) "%"+PlayerName.getText()+"%";
     	
     	
     	ResultSet rs = queries.selectPlayer(params, name);
-    	
+
+        PlayerTable.setModel(new DefaultTableModel());
     	PlayerTable.setModel(buildTable(rs));
     	PlayerTable.validate();
     }                                              
-    
-    // TODO: Remove this event handler and the associated button
-    private void ViewPlayerStatsActionPerformed(java.awt.event.ActionEvent evt) {                                                
-  
-    }                                               
+                                         
 
     // Display referees who have refd every game on ref page.
-    // TODO: query not ouputting anything (might be due to tables not initiallizing correctly
     private void ViewRefereeActionPerformed(java.awt.event.ActionEvent evt) {                                            
         ResultSet rs = queries.divisionQuery();
+        String queryString = "Select * from MatchInfo";
+		try {
+			Statement stmt = con.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_READ_ONLY);
+			rs = stmt.executeQuery(queryString);
+			RefereeTable.setModel(buildTable(rs));
+	    	RefereeTable.validate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
     }                                           
 
     // Change game times on ref page.
-    // TODO: fix formatting issue of input date, make sure its altering db
     private void UpdateGameTimeActionPerformed(java.awt.event.ActionEvent evt) {                                               
-        java.util.Date endtime = (java.util.Date)jSpinner3.getValue();
+       
         DateFormat df = new SimpleDateFormat("MM-DD-YYYY HH:MM");
-        String endtimeString = df.format(endtime);
-        System.out.println(endtimeString);
+        String Date = jSpinner2.getValue().toString();
+        Date = Date + "-" + (String) jSpinner4.getValue().toString();
+        Date = Date + "-" + (String) jSpinner5.getValue().toString();
+        Date = Date + " " + (String) jSpinner6.getValue().toString();
+        Date = Date + ":" + (String) jSpinner7.getValue().toString();
+
+        
+        
+        System.out.println(Date);
         int matchID = (int)GameID.getValue();
-        queries.updateQuery(endtimeString, matchID);
+        queries.updateQuery(Date, matchID);
+		String queryString = "Select * from MatchInfo";
+        try {
+			Statement stmt = con.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_READ_ONLY);
+			ResultSet rs = stmt.executeQuery(queryString);
+			RefereeTable.setModel(buildTable(rs));
+	    	RefereeTable.validate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
     }                                              
 
     // Remove player on Coach page.
@@ -930,16 +1040,31 @@ public class UI extends javax.swing.JFrame {
         queries.deleteQuery(name);
     }     
     
-    //TODO make work: fix query issues
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {                                                   
     	String team = (String) jComboBox2.getSelectedItem();
     	String year = (String) jSpinner1.getValue().toString();
-        queries.bonusQuery(team, year);
+        ResultSet rs =  queries.bonusQuery(team, year);
+
+        PlayerTable.setModel(new DefaultTableModel());
+        PlayerTable.setModel(buildTable(rs));
+    	PlayerTable.validate();
     }
-    //TODO make work: fix query issues
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {                                                   
         String team = (String) jComboBox2.getSelectedItem();
-    	//queries.bonusQuery2(team);
+        String[] result = queries.bonusQuery2(team);
+
+        
+        Object[] columns = new Object[3];
+        columns[0] = "Longest Streak";
+        columns[1] = "Start";
+        columns[2] = "End";
+    	Object[][] data = new Object[1][3];
+    	data[0][0] = result[0];
+    	data[0][1] = result[1];
+    	data[0][2] = result[2];
+    	DefaultTableModel tableModle = new DefaultTableModel(data, columns);
+    	PlayerTable.setModel(tableModle);
+    	PlayerTable.validate();
     }     
 
 
@@ -954,7 +1079,6 @@ public class UI extends javax.swing.JFrame {
 	    	height = rs.getRow();
 	    	columnCount = rsmd.getColumnCount();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
@@ -974,7 +1098,6 @@ public class UI extends javax.swing.JFrame {
 	    		rs.next();
 	    	}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
     	DefaultTableModel tableModel = new DefaultTableModel(data, columns);
@@ -985,7 +1108,7 @@ public class UI extends javax.swing.JFrame {
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
+    public static void runUI() {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
@@ -1031,6 +1154,7 @@ public class UI extends javax.swing.JFrame {
     private javax.swing.JCheckBox IDBox1;
     private javax.swing.JCheckBox LostBox;
     private javax.swing.JCheckBox LostBox1;
+    private javax.swing.JCheckBox LostBox2;
     private javax.swing.JTabbedPane MainPane;
     private javax.swing.JCheckBox NameBox;
     private javax.swing.JCheckBox NameBox1;
@@ -1055,7 +1179,6 @@ public class UI extends javax.swing.JFrame {
     private javax.swing.JPanel TeamInfoPane;
     private javax.swing.JButton UpdateGameTime;
     private javax.swing.JButton ViewPlayerInfo;
-    private javax.swing.JButton ViewPlayerStats;
     private javax.swing.JButton ViewReferee;
     private javax.swing.JButton ViewWinCount;
     private javax.swing.JCheckBox WeightBox;
@@ -1076,7 +1199,12 @@ public class UI extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;
+    private javax.swing.JLabel jLabel18;
+    private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel20;
+    private javax.swing.JLabel jLabel21;
+    private javax.swing.JLabel jLabel22;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
@@ -1089,6 +1217,11 @@ public class UI extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSpinner jSpinner1;
-    private javax.swing.JSpinner jSpinner3;
-    private javax.swing.JTextArea jTextArea1;                  
+    private javax.swing.JSpinner jSpinner2;
+    private javax.swing.JSpinner jSpinner4;
+    private javax.swing.JSpinner jSpinner5;
+    private javax.swing.JSpinner jSpinner6;
+    private javax.swing.JSpinner jSpinner7;
+    private javax.swing.JTextArea jTextArea1;
+    // End of variables declaration              
 }

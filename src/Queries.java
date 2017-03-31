@@ -28,7 +28,7 @@ public class Queries {
     	String query = "Select team from AvgTeamScores ats where ats.avg_score >= ALL (select avg_score from AvgTeamScores)";
         try {
         	Connection con = UI.getCon();
-            Statement stmt = con.createStatement();
+            Statement stmt = con.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_READ_ONLY);
             rs = stmt.executeQuery(nestedQueryString + query);
             ResultSetMetaData rsmd = rs.getMetaData();
             printResults(rsmd, rs);
@@ -48,7 +48,7 @@ public class Queries {
     	String query = "Select team from AvgTeamScores ats where ats.avg_score <= ALL (select avg_score from AvgTeamScores)";
         try {
         	Connection con = UI.getCon();
-            Statement stmt = con.createStatement();
+            Statement stmt = con.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_READ_ONLY);
             rs = stmt.executeQuery(nestedQueryString + query);
             ResultSetMetaData rsmd = rs.getMetaData();
             printResults(rsmd, rs);
@@ -161,7 +161,7 @@ public class Queries {
 
 		  Connection con = UI.getCon();
 
-		  Statement stmt = con.createStatement();
+		  Statement stmt = con.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_READ_ONLY);
 		  rs = stmt.executeQuery(queryString);
 
 		  // get info on ResultSet
@@ -220,11 +220,11 @@ public class Queries {
     public ResultSet divisionQuery() {
     	ResultSet rs = null;
     	System.out.println("Referee who refd all teams: ");
-        //String divisionQueryString = "SELECT name FROM Referee r WHERE NOT EXISTS ( SELECT * from Team t WHERE NOT EXISTS (Select * from MatchInfo m WHERE m.ref_id = r.ref_id AND (t.team_name = m.home_team OR t.team_name = m.away_team)))";
-        String divisionQueryString = "Select * from matchinfo";
+        String divisionQueryString = "SELECT name FROM Referee r WHERE NOT EXISTS ( SELECT * from Team t WHERE NOT EXISTS (Select * from MatchInfo m WHERE m.ref_id = r.ref_id AND (t.team_name = m.home_team OR t.team_name = m.away_team)))";
+        //String divisionQueryString = "Select * from matchinfo";
     	try {
         	Connection con = UI.getCon();
-            Statement stmt = con.createStatement();
+            Statement stmt = con.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_READ_ONLY);
             rs = stmt.executeQuery(divisionQueryString);
             ResultSetMetaData rsmd = rs.getMetaData();
             printResults(rsmd, rs);
@@ -343,7 +343,7 @@ public class Queries {
 
 		try {
 			Connection con = UI.getCon();
-			Statement stmt = con.createStatement();
+			Statement stmt = con.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_READ_ONLY);
 			stmt.executeQuery(createResultTable);
 		} catch (SQLException ex) {
 			System.out.println("Message: " + ex.getMessage());
@@ -423,7 +423,7 @@ public class Queries {
 
 			try {
 				Connection con = UI.getCon();
-				Statement stmt = con.createStatement();
+				Statement stmt = con.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_READ_ONLY);
 
 				stmt.executeUpdate(queryString);
 
@@ -437,7 +437,7 @@ public class Queries {
 
 		try {
 			Connection con = UI.getCon();
-			Statement stmt = con.createStatement();
+			Statement stmt = con.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_READ_ONLY);
 			rs = stmt.executeQuery(getResultTable);
 			ResultSetMetaData rsmd = rs.getMetaData();
 			printResults(rsmd, rs);
@@ -449,8 +449,9 @@ public class Queries {
 	}
 
 
-	public void bonusQuery2(String team) {
+	public String[] bonusQuery2(String team) {
 		ResultSet rs = null;
+		String Output[] = new String[3];
 		String queryString = "\n" +
 				"Select ms.winner, to_char(mi.end_time, 'MM-DD-YYYY') \"DATE\" from MatchInfo mi, " +
 				"MatchSummary ms where mi.home_team = ms.home_team and mi.away_team = ms.away_team and " +
@@ -465,7 +466,7 @@ public class Queries {
 		 */
 		try {
 			Connection con = UI.getCon();
-			Statement stmt = con.createStatement();
+			Statement stmt = con.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_READ_ONLY);
 			rs = stmt.executeQuery(queryString);
 			ResultSetMetaData rsmd = rs.getMetaData();
 
@@ -503,22 +504,30 @@ public class Queries {
 			//TODO: display this prettier to user
 			if (streak != null) {
 				System.out.println("Longest win streak: " + streak.winCount);
+				Output[0] = String.valueOf(streak.winCount);
 				System.out.println("Streak start date: " + streak.startDate);
+				Output[1] = String.valueOf(streak.startDate);
 				if (streak.endDate != null) {
 					System.out.println("Streak end date: " + streak.endDate);
+					Output[2] = String.valueOf(streak.endDate);
 				}
 				else {
 					System.out.println("Streak end date: ongoing");
+					Output[2] = "ongoing";
 				}
 			}
 			else {
 				System.out.println("No streak exists.");
+				Output[0] = "No";
+				Output[1] = "Streak";
+				Output[2] = "Exists";
 			}
 
 
 		} catch (SQLException ex) {
 			System.out.println("Message: " + ex.getMessage());
 		}
+		return Output;
 	}
 
 
