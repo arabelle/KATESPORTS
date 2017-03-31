@@ -5,12 +5,15 @@ import java.io.InputStreamReader;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Vector;
 
+import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 
@@ -69,7 +72,19 @@ public class UI extends javax.swing.JFrame {
 		} catch (SQLException ex) {
 			System.out.println("Message: " + ex.getMessage());
 		}
-        
+		String queryString = "Select * from MatchInfo";
+		try {
+			con = DriverManager.getConnection(connectURL, username, password);
+
+			Statement stmt = con.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_READ_ONLY);
+			ResultSet rs = stmt.executeQuery(queryString);
+			RefereeTable.setModel(buildTable(rs));
+	    	RefereeTable.validate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 
 		
     }
@@ -838,6 +853,8 @@ public class UI extends javax.swing.JFrame {
     	String[] params = paramlist.toArray(new String[paramlist.size()]);
         String teamname = (String) TeamDropdown.getSelectedItem();
         ResultSet rs = queries.joinQuery(params, teamname);
+        CoachTable.setModel(buildTable(rs));
+    	CoachTable.validate();
         
     }                                            
     // Button "View number of wins" on player page.
@@ -879,6 +896,9 @@ public class UI extends javax.swing.JFrame {
     	
     	
     	ResultSet rs = queries.selectPlayer(params, name);
+    	
+    	PlayerTable.setModel(buildTable(rs));
+    	PlayerTable.validate();
     }                                              
     
     // TODO: Remove this event handler and the associated button
@@ -923,6 +943,45 @@ public class UI extends javax.swing.JFrame {
     }     
 
 
+    private DefaultTableModel buildTable(ResultSet rs){
+    	ResultSetMetaData rsmd;
+    	
+    	int height =  0;
+    	int columnCount = 0;
+		try {
+			rsmd = rs.getMetaData();
+			rs.last();
+	    	height = rs.getRow();
+	    	columnCount = rsmd.getColumnCount();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		Object[] columns = new Object[columnCount];
+    	Object[][] data = new Object[height][columnCount];
+    	
+		try {
+			rsmd = rs.getMetaData();
+	    	for(int i = 1; i <= columnCount; i++)
+	    		columns[i-1] = rsmd.getColumnName(i);
+	    
+	    	rs.absolute(1);
+	    	for(int i = 1; i <= height; i++){
+	    		for( int j = 1; j <= columnCount; j++){
+	    			data[i-1][j-1] = rs.getString(j);
+	    		}
+	    		rs.next();
+	    	}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    	DefaultTableModel tableModel = new DefaultTableModel(data, columns);
+    	return tableModel;
+    }
+    
+    
     /**
      * @param args the command line arguments
      */

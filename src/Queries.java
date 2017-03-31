@@ -81,10 +81,9 @@ public class Queries {
 			  return null;
 		  }
 		  queryString = queryString + " FROM Player WHERE name like '" + name + "'";
-		  
+
 		  Connection con = UI.getCon();
-		  stmt = con.createStatement();
-	
+		  stmt = con.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_READ_ONLY);
 		  rs = stmt.executeQuery(queryString);
 	
 		  // get info on ResultSet
@@ -129,7 +128,7 @@ public class Queries {
 		  
 		  Connection con = UI.getCon();
 		  
-		  stmt = con.createStatement();
+		  stmt = con.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_READ_ONLY);
 	
 		  rs = stmt.executeQuery(queryString);
 	
@@ -220,14 +219,15 @@ public class Queries {
     public ResultSet divisionQuery() {
     	ResultSet rs = null;
     	System.out.println("Referee who refd all teams: ");
-        String divisionQueryString = "SELECT name FROM Referee r WHERE NOT EXISTS ( SELECT * from Team t WHERE NOT EXISTS (Select * from MatchInfo m WHERE m.ref_id = r.ref_id AND (t.team_name = m.home_team OR t.team_name = m.away_team)))";
-        //String divisionQueryString = "Select * from mtea";
+        //String divisionQueryString = "SELECT name FROM Referee r WHERE NOT EXISTS ( SELECT * from Team t WHERE NOT EXISTS (Select * from MatchInfo m WHERE m.ref_id = r.ref_id AND (t.team_name = m.home_team OR t.team_name = m.away_team)))";
+        String divisionQueryString = "Select * from matchinfo";
     	try {
         	Connection con = UI.getCon();
             Statement stmt = con.createStatement();
             rs = stmt.executeQuery(divisionQueryString);
             ResultSetMetaData rsmd = rs.getMetaData();
             printResults(rsmd, rs);
+            System.out.println();
 
         } catch (SQLException ex) {
             System.out.println("Message: " + ex.getMessage());
