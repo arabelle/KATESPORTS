@@ -339,7 +339,18 @@ public class Queries {
 
 	public ResultSet bonusQuery(String team, String year) {
 		//create table to store results (month & that month's win percentage)
-		String createResultTable = "CREATE GLOBAL TEMPORARY TABLE WinsPerMonth (month char(10), win_percentage NUMBER(5, 2)) ON COMMIT PRESERVE ROWS";
+		String createResultTable = "Delete from WinsPerMonth";
+
+		try {
+			Connection con = UI.getCon();
+			Statement stmt = con.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_READ_ONLY);
+			stmt.executeQuery(createResultTable);
+		} catch (SQLException ex) {
+			System.out.println("Message: " + ex.getMessage());
+		}
+		
+		
+		createResultTable = "CREATE GLOBAL TEMPORARY TABLE WinsPerMonth (month char(10), win_percentage NUMBER(5, 2)) ON COMMIT PRESERVE ROWS";
 
 		try {
 			Connection con = UI.getCon();
@@ -444,6 +455,7 @@ public class Queries {
 		} catch (SQLException ex) {
 			System.out.println("Message: " + ex.getMessage());
 		}
+		
 
 		return rs;
 	}
@@ -520,7 +532,7 @@ public class Queries {
 				System.out.println("No streak exists.");
 				Output[0] = "No";
 				Output[1] = "Streak";
-				Output[2] = "Exists";
+				Output[2] = "Exits";
 			}
 
 
