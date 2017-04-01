@@ -258,7 +258,7 @@ public class Queries {
     //Delete from Players where name like ‘Emilio%’; //no rentals to delete
     //Delete from Players where name like ‘Bob%’; //many rentals get deleted
     // user specifies the name
-    public void deleteQuery(String nameregex) {
+    public void deleteQuery(String nameregex) throws SQLException {
     	PreparedStatement  ps;
     	Connection con = UI.getCon();
     	try
@@ -289,8 +289,9 @@ public class Queries {
     	    catch (SQLException ex2)
     	    {
     		System.out.println("Message: " + ex2.getMessage());
-    		System.exit(-1);
+    		throw ex2;
     	    }
+            throw ex;
     	}
     }
 
@@ -317,26 +318,21 @@ public class Queries {
       (2, 'Hot Cheetos', 'Non-Losers', 44, 76, to_timestamp('01-12-2017 15:30','MM-DD-YYYY HH24:MI'),
       to_timestamp('01-12-2017 18:30','MM-DD-YYYY HH24:MI'), 5);
     */
-    public void updateQuery(String endtime, int matchid) {
+    public int updateQuery(String endtime, int matchid) throws SQLException {
 		PreparedStatement  ps;
 		Connection con = UI.getCon();
 		try {
-			/*
-			 * 
-			 * TODO: we need to change the time to SimpleDateFormat, and add it to the
-			 * query.
-			 */
 		  ps = con.prepareStatement("UPDATE MatchInfo SET end_time = ? WHERE match_id = ?");
 		  
 		  Timestamp date = processTime(endtime);		
 		  ps.setTimestamp(1, date);
 		  ps.setInt(2, matchid);
-		  
 
-	
 		  int rowCount = ps.executeUpdate();
 		  if (rowCount == 0) {
+			  
 		      System.out.println("\nMatchID" + matchid + " does not exist!");
+		      return -1;
 		  }
 	
 		  con.commit();
@@ -351,13 +347,16 @@ public class Queries {
 		    }
 		    catch (SQLException ex2) {
 				System.out.println("Message: " + ex2.getMessage());
-				System.exit(-1);
+				throw ex2;
+				
 		    }
+		    throw ex;
 		}
+		return 0;
     }
     
 
-	public ResultSet bonusQuery(String team, String year) {
+	public ResultSet bonusQuery(String team, String year) throws SQLException {
 		//create table to store results (month & that month's win percentage)
 		String createResultTable = "Delete from WinsPerMonth";
 
@@ -367,6 +366,7 @@ public class Queries {
 			stmt.executeQuery(createResultTable);
 		} catch (SQLException ex) {
 			System.out.println("Message: " + ex.getMessage());
+			throw ex;
 		}
 		
 		
@@ -535,7 +535,6 @@ public class Queries {
 				}
 			}
 
-			//TODO: display this prettier to user
 			if (streak != null) {
 				System.out.println("Longest win streak: " + streak.winCount);
 				Output[0] = String.valueOf(streak.winCount);
