@@ -141,7 +141,7 @@ public class Queries {
 		return rs;
     }
 
-    public ResultSet aggregationQueryAvgMaxMin(String aggtype, String team) {
+    public ResultSet aggregationQueryAvgMaxMinSum(String aggtype, String team) {
     	//this gets avg/max/min score of given team over all games
 		String queryString;
 		ResultSet rs = null;
@@ -168,6 +168,32 @@ public class Queries {
 		}
 		return rs;
     }
+
+	public ResultSet aggregationQueryCount(String team) {
+		//this gets the # of wins for a given team
+		String queryString;
+		ResultSet rs = null;
+
+		queryString = "SELECT COUNT(*) FROM MatchSummary where winner = '" + team + "'";
+
+		try {
+
+			Connection con = UI.getCon();
+
+			Statement stmt = con.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_READ_ONLY);
+			rs = stmt.executeQuery(queryString);
+
+			// get info on ResultSet
+			ResultSetMetaData rsmd = rs.getMetaData();
+
+			printResults(rsmd, rs);
+
+		}
+		catch (SQLException ex) {
+			System.out.println("Message: " + ex.getMessage());
+		}
+		return rs;
+	}
 
     private void printResults(ResultSetMetaData rsmd, ResultSet result) throws SQLException{
     	while(result.next()) {
