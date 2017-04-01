@@ -916,7 +916,7 @@ public class UI extends javax.swing.JFrame {
     private void ViewWinCountActionPerformed(java.awt.event.ActionEvent evt) {                                             
     	String teamname = (String) TeamDropdown2.getSelectedItem();
     	String aggtype = (String) jComboBox1.getSelectedItem();
-    	ResultSet rs = queries.aggregationQueryAvgMaxMin(aggtype, teamname);
+    	ResultSet rs = queries.aggregationQueryAvgMaxMinSum(aggtype, teamname);
     	if(aggtype.equals("Avg"))
     		jTextArea1.setText(teamname + " has a goals per game average of:\n");
     	else if(aggtype.equals("Max"))

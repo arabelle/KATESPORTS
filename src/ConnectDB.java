@@ -290,7 +290,7 @@ public class ConnectDB implements ActionListener
 					   case 2:  q.nestedQuerySmallest(); break;
 					   case 3:  q.bonusQuery("AndroidT", "2017"); break;
 					   case 4:  q.updateQuery("01-12-2017 16:31", 2); break;
-					   case 5:  q.aggregationQueryAvgMaxMin("count", "Grannies"); break;
+					   case 5:  q.aggregationQueryAvgMaxMinSum("count", "Grannies"); break;
 					   case 6:  q.divisionQuery(); break;
 					   case 7:  q.bonusQuery2("Grannies"); break;
 					   case 8:  q.bonusQuery2("AndroidT"); break;
