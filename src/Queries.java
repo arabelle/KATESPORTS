@@ -321,19 +321,12 @@ public class Queries {
 		PreparedStatement  ps;
 		Connection con = UI.getCon();
 		try {
-			/*
-			 * 
-			 * TODO: we need to change the time to SimpleDateFormat, and add it to the
-			 * query.
-			 */
 		  ps = con.prepareStatement("UPDATE MatchInfo SET end_time = ? WHERE match_id = ?");
 		  
 		  Timestamp date = processTime(endtime);		
 		  ps.setTimestamp(1, date);
 		  ps.setInt(2, matchid);
-		  
 
-	
 		  int rowCount = ps.executeUpdate();
 		  if (rowCount == 0) {
 			  
@@ -541,7 +534,6 @@ public class Queries {
 				}
 			}
 
-			//TODO: display this prettier to user
 			if (streak != null) {
 				System.out.println("Longest win streak: " + streak.winCount);
 				Output[0] = String.valueOf(streak.winCount);
