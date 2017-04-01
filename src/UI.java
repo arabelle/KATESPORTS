@@ -55,6 +55,7 @@ public class UI extends javax.swing.JFrame {
 		jComboBox1.addItem("Avg");
 		jComboBox1.addItem("Min");
 		jComboBox1.addItem("Max");
+		jComboBox1.addItem("Sum");
         TeamDropdown2.removeAllItems();
         TeamDropdown.removeAllItems();
 		jComboBox2.removeAllItems();
@@ -92,7 +93,7 @@ public class UI extends javax.swing.JFrame {
     	return con;
     }
     // Genrated by the netbeans GUI editor                      
-    private void initComponents() {
+        private void initComponents() {
 
         jFormattedTextField1 = new javax.swing.JFormattedTextField();
         MainPane = new javax.swing.JTabbedPane();
@@ -170,8 +171,9 @@ public class UI extends javax.swing.JFrame {
         TeamDropdown2 = new javax.swing.JComboBox<>();
         jLabel9 = new javax.swing.JLabel();
         GetGoalsAverage = new javax.swing.JButton();
-        ViewWinCount = new javax.swing.JButton();
         GetGoalsAverage1 = new javax.swing.JButton();
+        ViewWinCount1 = new javax.swing.JButton();
+        ViewWinCount = new javax.swing.JButton();
         jLabel10 = new javax.swing.JLabel();
         jComboBox1 = new javax.swing.JComboBox<>();
         jLabel13 = new javax.swing.JLabel();
@@ -592,7 +594,8 @@ public class UI extends javax.swing.JFrame {
         IDBox.setText("ID");
 
         NameBox.setText("Name");
-        
+       
+
         PhoneNumberBox.setText("Phone Number");
 
         AgeBox.setText("Age");
@@ -767,10 +770,24 @@ public class UI extends javax.swing.JFrame {
 
         jLabel9.setText("View team with");
 
-        GetGoalsAverage.setText("Most Goals");
+        GetGoalsAverage.setText("Most Goals For");
         GetGoalsAverage.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 GetGoalsAverageActionPerformed(evt);
+            }
+        });
+
+        GetGoalsAverage1.setText("Fewest Goals For");
+        GetGoalsAverage1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                GetGoalsAverage1ActionPerformed(evt);
+            }
+        });
+
+        ViewWinCount1.setText("Count Wins");
+        ViewWinCount1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ViewWinCount1ActionPerformed(evt);
             }
         });
 
@@ -778,13 +795,6 @@ public class UI extends javax.swing.JFrame {
         ViewWinCount.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 ViewWinCountActionPerformed(evt);
-            }
-        });
-
-        GetGoalsAverage1.setText("Fewest Goals");
-        GetGoalsAverage1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                GetGoalsAverage1ActionPerformed(evt);
             }
         });
 
@@ -802,25 +812,23 @@ public class UI extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(TeamInfoPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(TeamInfoPaneLayout.createSequentialGroup()
-                        .addComponent(jLabel10)
+                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel13)
                         .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(TeamInfoPaneLayout.createSequentialGroup()
-                        .addGroup(TeamInfoPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(GetGoalsAverage, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(ViewWinCount, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(GetGoalsAverage1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addGroup(TeamInfoPaneLayout.createSequentialGroup()
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, TeamInfoPaneLayout.createSequentialGroup()
+                        .addGroup(TeamInfoPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(ViewWinCount, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(GetGoalsAverage, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(GetGoalsAverage1, javax.swing.GroupLayout.DEFAULT_SIZE, 145, Short.MAX_VALUE)
+                            .addComponent(TeamDropdown2, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(ViewWinCount1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, TeamInfoPaneLayout.createSequentialGroup()
                                 .addGroup(TeamInfoPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel9)
-                                    .addGroup(TeamInfoPaneLayout.createSequentialGroup()
-                                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jLabel13)))
-                                .addGap(0, 0, Short.MAX_VALUE))
-                            .addGroup(TeamInfoPaneLayout.createSequentialGroup()
-                                .addComponent(jLabel1)
-                                .addGap(80, 80, 80))
-                            .addComponent(TeamDropdown2, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                    .addComponent(jLabel1)
+                                    .addComponent(jLabel10))
+                                .addGap(0, 0, Short.MAX_VALUE)))
                         .addContainerGap())))
         );
         TeamInfoPaneLayout.setVerticalGroup(
@@ -832,10 +840,12 @@ public class UI extends javax.swing.JFrame {
                 .addComponent(GetGoalsAverage)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(GetGoalsAverage1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 40, Short.MAX_VALUE)
+                .addGap(35, 35, 35)
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(TeamDropdown2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(ViewWinCount1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -844,7 +854,7 @@ public class UI extends javax.swing.JFrame {
                     .addComponent(jLabel13))
                 .addGap(18, 18, 18)
                 .addComponent(ViewWinCount)
-                .addGap(12, 12, 12))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jTextArea1.setColumns(20);
@@ -857,8 +867,8 @@ public class UI extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(TeamInfoPane, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(TeamInfoPane, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 850, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(60, Short.MAX_VALUE))
         );
@@ -867,10 +877,10 @@ public class UI extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 578, Short.MAX_VALUE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(TeamInfoPane, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 262, Short.MAX_VALUE)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
 
@@ -888,7 +898,7 @@ public class UI extends javax.swing.JFrame {
         );
 
         pack();
-    }// </editor-fold>  
+    }// </editor-fold>                        
 
      
 
@@ -921,6 +931,8 @@ public class UI extends javax.swing.JFrame {
     		jTextArea1.setText(teamname + " has a goals per game average of:\n");
     	else if(aggtype.equals("Max"))
     		jTextArea1.setText(teamname + " has a max goals per game of:\n");
+    	else if(aggtype.equals("Sum"))
+    		jTextArea1.setText(teamname + " has a goals count of:\n");
     	else
     		jTextArea1.setText(teamname + " has a minimum goals per game of:\n");
     	try {
@@ -930,7 +942,20 @@ public class UI extends javax.swing.JFrame {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-    }                                            
+    }    
+    private void ViewWinCount1ActionPerformed(java.awt.event.ActionEvent evt) {                                             
+    	String teamname = (String) TeamDropdown2.getSelectedItem();
+    	ResultSet rs = queries.aggregationQueryCount(teamname);
+    	jTextArea1.setText(teamname + " has a win count of:\n");
+    	
+    	try {
+    		rs.first();
+			System.out.print(rs.getString(1));
+			jTextArea1.append(rs.getString(1));
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+    }    
     
     // Teams with most goals.
     // DONE
@@ -1206,5 +1231,6 @@ public class UI extends javax.swing.JFrame {
     private javax.swing.JSpinner jSpinner6;
     private javax.swing.JSpinner jSpinner7;
     private javax.swing.JTextArea jTextArea1;
+    private javax.swing.JButton ViewWinCount1;
     // End of variables declaration              
 }
