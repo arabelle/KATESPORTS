@@ -55,6 +55,7 @@ public class UI extends javax.swing.JFrame {
 		jComboBox1.addItem("Avg");
 		jComboBox1.addItem("Min");
 		jComboBox1.addItem("Max");
+		jComboBox1.addItem("Sum");
         TeamDropdown2.removeAllItems();
         TeamDropdown.removeAllItems();
 		jComboBox2.removeAllItems();
@@ -921,6 +922,8 @@ public class UI extends javax.swing.JFrame {
     		jTextArea1.setText(teamname + " has a goals per game average of:\n");
     	else if(aggtype.equals("Max"))
     		jTextArea1.setText(teamname + " has a max goals per game of:\n");
+    	else if(aggtype.equals("Sum"))
+    		jTextArea1.setText(teamname + " has a goals count of:\n");
     	else
     		jTextArea1.setText(teamname + " has a minimum goals per game of:\n");
     	try {
