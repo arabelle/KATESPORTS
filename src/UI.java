@@ -13,6 +13,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Vector;
 
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
@@ -1037,7 +1039,18 @@ public class UI extends javax.swing.JFrame {
         
         System.out.println(Date);
         int matchID = (int)GameID.getValue();
-        queries.updateQuery(Date, matchID);
+        int result = 0;
+        try {
+			result = queries.updateQuery(Date, matchID);
+		} catch (SQLException e1) {
+			JFrame eframe = new JFrame();
+			JOptionPane.showMessageDialog(eframe, e1);
+		}
+        if(result == -1) {
+        	JFrame eframe = new JFrame();
+			JOptionPane.showMessageDialog(eframe, "Match with id = " + matchID + " does not exist");
+        }
+        
 		String queryString = "Select * from MatchInfo";
         try {
 			Statement stmt = con.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_READ_ONLY);
@@ -1045,7 +1058,8 @@ public class UI extends javax.swing.JFrame {
 			RefereeTable.setModel(buildTable(rs));
 	    	RefereeTable.validate();
 		} catch (SQLException e) {
-			e.printStackTrace();
+			JFrame eframe = new JFrame();
+			JOptionPane.showMessageDialog(eframe, e);
 		}
     }                                              
 
@@ -1060,11 +1074,18 @@ public class UI extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {                                                   
     	String team = (String) jComboBox2.getSelectedItem();
     	String year = (String) jSpinner1.getValue().toString();
-        ResultSet rs =  queries.bonusQuery(team, year);
+        ResultSet rs;
+		try {
+			rs = queries.bonusQuery(team, year);
 
-        PlayerTable.setModel(new DefaultTableModel());
-        PlayerTable.setModel(buildTable(rs));
-    	PlayerTable.validate();
+	        PlayerTable.setModel(new DefaultTableModel());
+	        PlayerTable.setModel(buildTable(rs));
+	    	PlayerTable.validate();
+		} catch (SQLException e) {
+			JFrame eframe = new JFrame();
+			JOptionPane.showMessageDialog(eframe, e);
+		}
+
     }
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {                                                   
         String team = (String) jComboBox2.getSelectedItem();
