@@ -13,13 +13,6 @@ public class Queries {
 	// command line reader
     private BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
 
-	 /*CREATE GLOBAL TEMPORARY TABLE AvgTeamScores
-	    ON COMMIT PRESERVE ROWS
-	    AS Select team, avg(score) as avg_score from ((Select home_team as team, home_score as score from MatchSummary) UNION ALL (select away_team as team, away_score as score from MatchSummary)) GROUP BY team
-	 //get average score per team
-	 Select team from AvgTeamScores ats where ats.avg_score >= ALL (select avg_score from AvgTeamScores)
-	 //get team with biggest average */
-
     public ResultSet nestedQueryBiggest() {
     	ResultSet rs = null;
     	String nestedQueryString = "WITH AvgTeamScores AS (Select team, avg(score) as avg_score from ((Select home_team as team, " +
@@ -148,14 +141,14 @@ public class Queries {
 		return rs;
     }
 
-    public ResultSet aggregationQueryAvgMaxMin(String aggtype, String team) {
+    public ResultSet aggregationQueryAvgMaxMinSum(String aggtype, String team) {
     	//this gets avg/max/min score of given team over all games
 		String queryString;
 		ResultSet rs = null;
 
 		queryString = "SELECT "+aggtype+"(score) FROM (select m.home_score as score " +
 				"from MatchSummary m where m.home_team ='" + team + "' UNION ALL select " +
-				"m2.away_score as score from MatchSummary m2 where m2.away_team = '" + team + "') score";
+				"m2.away_score as score from MatchSummary m2 where m2.away_team = '" + team + "') AllScores";
 
 		try {
 
@@ -175,6 +168,32 @@ public class Queries {
 		}
 		return rs;
     }
+
+	public ResultSet aggregationQueryCount(String team) {
+		//this gets the # of wins for a given team
+		String queryString;
+		ResultSet rs = null;
+
+		queryString = "SELECT COUNT(*) FROM MatchSummary where winner = '" + team + "'";
+
+		try {
+
+			Connection con = UI.getCon();
+
+			Statement stmt = con.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_READ_ONLY);
+			rs = stmt.executeQuery(queryString);
+
+			// get info on ResultSet
+			ResultSetMetaData rsmd = rs.getMetaData();
+
+			printResults(rsmd, rs);
+
+		}
+		catch (SQLException ex) {
+			System.out.println("Message: " + ex.getMessage());
+		}
+		return rs;
+	}
 
     private void printResults(ResultSetMetaData rsmd, ResultSet result) throws SQLException{
     	while(result.next()) {
@@ -214,7 +233,6 @@ public class Queries {
     }
 
 
-    // Select name from Referee r WHERE NOT EXISTS (Select * from Team t WHERE NOT EXISTS (Select * from MatchInfo m WHERE m.ref_id = r.ref_id AND (t.team_name = m.home_team or t.team_name = m.away_team))
     //this returns the names of referees who have ref’d every team
     //should be Harry Jordan
     public ResultSet divisionQuery() {
@@ -296,7 +314,9 @@ public class Queries {
       UPDATE MatchInfo SET end_time = ‘01-11-2017 16:30’ WHERE match_id = 2 //this fails the check
       //user specifies the end time and match_id
       Record for reference:
-      (2, ‘Hot Cheetos’, ‘Non-Losers’, NULL, NULL, to_timestamp(‘01-12-2017 15:30’,’MM-DD-YYYY HH24:MI’), NULL, 5) */
+      (2, 'Hot Cheetos', 'Non-Losers', 44, 76, to_timestamp('01-12-2017 15:30','MM-DD-YYYY HH24:MI'),
+      to_timestamp('01-12-2017 18:30','MM-DD-YYYY HH24:MI'), 5);
+    */
     public void updateQuery(String endtime, int matchid) {
 		PreparedStatement  ps;
 		Connection con = UI.getCon();
@@ -422,6 +442,7 @@ public class Queries {
 					"DATE '" + year + "-"+ month_as_num + "-01' AND DATE '" + year + "-"+ next_month_as_num + "-01')) " +
 					"as win_percentage FROM DUAL";
 			/*
+			example query to run in sqlplus:
 			INSERT INTO WinsPerMonth(month, win_percentage) Select 'February', ((select count(*) from MatchInfo mi,
 			MatchSummary ms where mi.home_team = ms.home_team and mi.away_team = ms.away_team and
 			mi.home_score = ms.home_score and mi.away_score = ms.away_score and (ms.home_team = 'AndroidT' or
@@ -471,6 +492,7 @@ public class Queries {
 				"ms.away_team = '" + team + "') ORDER BY to_char(mi.end_time, 'MM-DD-YYYY HH24:MM')";
 
 		/*
+		example query to run in sqlplus:
 		Select ms.winner, to_char(mi.end_time, 'MM-DD-YYYY') "DATE" from MatchInfo mi, MatchSummary ms where
 		mi.home_team = ms.home_team and mi.away_team = ms.away_team and mi.home_score = ms.home_score and
 		mi.away_score = ms.away_score and (ms.home_team = 'Grannies' or ms.away_team = 'Grannies')
@@ -524,8 +546,8 @@ public class Queries {
 					Output[2] = String.valueOf(streak.endDate);
 				}
 				else {
-					System.out.println("Streak end date: ongoing");
-					Output[2] = "ongoing";
+					System.out.println("Streak ongoing");
+					Output[2] = "streak ongoing";
 				}
 			}
 			else {
