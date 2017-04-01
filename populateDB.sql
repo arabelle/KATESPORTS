@@ -94,7 +94,102 @@ VALUES(3, 'Cathy Collingwood', '400-233-1215', 22, 120, 10, 5, 'Non-Losers');
 INSERT INTO Player
 VALUES(4, 'Doris Dunder', '400-356-5656', 11, 140, 10, 6, 'Non-Losers');
 INSERT INTO Player
-VALUES(5, 'Emilio Enrique', '400-895-5745', 15, 124, 10, 5, 'Non-Losers');
+VALUES(5, 'Mandi Boyers', '400-895-5745', 15, 124, 10, 5, 'Non-Losers');
+INSERT INTO Player
+VALUES(6, 'Tiffani Scaglionee', '400-896-5745', 12, 124, 10, 5, 'Non-Losers');
+INSERT INTO Player
+VALUES(7, 'Melinda Gerhardt', '400-897-5745', 13, 124, 0, 5, 'Hot Cheetos');
+INSERT INTO Player
+VALUES(8, 'Tayna Lepley', '400-898-5745', 16, 124, 0, 52, 'Hot Cheetos');
+INSERT INTO Player
+VALUES(9, 'Noma Geter', '400-899-5745', 16, 123, 0, 12, 'Hot Cheetos');
+INSERT INTO Player
+VALUES(10, 'Jeannine Mcmurry', '400-890-5745', 19, 171, 2, 2, 'Hot Cheetos');
+INSERT INTO Player
+VALUES(11, 'Stevie Granville', '400-891-5745', 15, 114, 1, 78, 'Hot Cheetos');
+INSERT INTO Player
+VALUES(12, 'Ruth Oyola', '400-892-5735', 15, 112, 20, 2, 'Ball Is Life');
+INSERT INTO Player
+VALUES(13, 'Kami Quint', '400-895-5775', 15, 132, 60, 1, 'Ball Is Life');
+INSERT INTO Player
+VALUES(14, 'Alexis Mckeon', '400-875-5295', 15, 135, 16, 2, 'Ball Is Life');
+INSERT INTO Player
+VALUES(15, 'Hae Heywood', '400-845-5105', 17, 129, 25, 1, 'Ball Is Life');
+INSERT INTO Player
+VALUES(16, 'Benton Gunia', '400-825-5245', 19, 124, 8, 1, 'Ball Is Life');
+INSERT INTO Player
+VALUES(17, 'Ranee Keach', '400-815-5655', 11, 129, 11, 0, 'Ball Is Life');
+INSERT INTO Player
+VALUES(18,'Migdalia Falcon','300-600-1005',11,123,12,4,'Grannies');
+INSERT INTO Player
+VALUES(19,'Tana Rohrbaugh','300-600-1004',19,115,14,2,'Grannies');
+INSERT INTO Player
+VALUES(20,'Sherilyn Pitt','300-600-1003',22,112,62,12,'Grannies');
+INSERT INTO Player
+VALUES(21,'Eartha Absher','300-600-1002',23,161,23,3,'Grannies');
+INSERT INTO Player
+VALUES(22,'Verdie Brar','300-600-1001',12,177,23,2,'Grannies');
+INSERT INTO Player
+VALUES(23,'Ross Vanetten','300-600-1005',14,116,52,2,'Grannies');
+INSERT INTO Player
+VALUES(24,'Penelope Frederic','300-600-1004',17,116,42,3,'Grannies');
+INSERT INTO Player
+VALUES(25,'Georgiann Gravel','300-600-1003',18,117,1,12,'Grannies');
+INSERT INTO Player
+VALUES(26,'Majorie Mailloux','300-600-1002',17,123,2,23,'AndroidT');
+INSERT INTO Player
+VALUES(27,'Lance Laux','300-600-1001',18,134,3,53,'AndroidT');
+INSERT INTO Player
+VALUES(28,'Kamala Schwager','300-600-1000',16,163,13,3,'AndroidT');
+INSERT INTO Player
+VALUES(29,'Delinda Litt','300-600-9990',16,178,14,2,'AndroidT');
+INSERT INTO Player
+VALUES(30,'Anderson Marenco','300-600-9989',16,132,13,2,'AndroidT');
+INSERT INTO Player
+VALUES(31,'Hosea Rittenberry','300-600-9988',17,134,2,12,'AndroidT');
+INSERT INTO Player
+VALUES(32,'Stacee Hernandes','300-600-9987',19,145,52,3,'AndroidT');
+INSERT INTO Player
+VALUES(33,'William Litchford','300-600-9986',23,155,12,7,'AndroidT');
+INSERT INTO Player
+VALUES(34,'Jerrell Beckmann','300-600-9985',22,121,42,0,'AndroidT');
+INSERT INTO Player
+VALUES(35,'Katina Bolding','300-600-9984',21,111,12,9,'Ball Is Life');
+INSERT INTO Player
+VALUES(36,'Elden Seawell','300-600-9983',22,131,41,6,'Ball Is Life');
+INSERT INTO Player
+VALUES(37,'Jackqueline Hopple','300-600-9982',22,141,11,8,'Ball Is Life');
+INSERT INTO Player
+VALUES(38,'Annis Richmond','300-600-9981',11,112,13,5,'Ball Is Life');
+INSERT INTO Player
+VALUES(39,'Cecelia Glynn','300-600-9980',15,111,12,6,'Ball Is Life');
+INSERT INTO Player
+VALUES(40,'Janna Roling','300-600-9979',17,131,22,3,'Ball Is Life');
+INSERT INTO Player
+VALUES(41,'Peg Hollifield','300-600-9978',19,151,22,5,'Ball Is Life');
+INSERT INTO Player
+VALUES(42,'Nelda Ballance','300-600-9977',13,113,12,3,'Hot Cheetos');
+INSERT INTO Player
+VALUES(43,'Huey Schnabel','300-600-9976',15,113,32,1,'Hot Cheetos');
+INSERT INTO Player
+VALUES(44,'Terry Dull','300-600-9975',17,151,1,23,'Hot Cheetos');
+INSERT INTO Player
+VALUES(45,'Sheron Pass','300-600-9974',17,121,12,1,'Hot Cheetos');
+INSERT INTO Player
+VALUES(46,'Salvatore Glavin','300-600-9973',17,123,4,12,'Non-Losers');
+INSERT INTO Player
+VALUES(47,'Hallie Lout','300-600-9972',18,123,3,23,'Non-Losers');
+INSERT INTO Player
+VALUES(48,'Donovan Onken','300-600-9971',18,145,5,24,'Non-Losers');
+INSERT INTO Player
+VALUES(49,'Jonna Schaible','300-600-9970',13,123,3,25,'Non-Losers');
+INSERT INTO Player
+VALUES(50,'Kyle Klemp','300-600-9969',14,141,13,1,'Non-Losers');
+INSERT INTO Player
+VALUES(51,'Carmelita Torgeson','300-600-9968',17,142,2,12,'Non-Losers');
+INSERT INTO Player
+VALUES(52,'Coralie Northrop','300-600-9967',19,123,23,9,'Non-Losers');
+
 
 CREATE TABLE Rental (
 	rental_id NUMBER(10) NOT NULL,
