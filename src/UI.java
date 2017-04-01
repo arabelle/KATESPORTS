@@ -1068,7 +1068,13 @@ public class UI extends javax.swing.JFrame {
     private void RemovePlayerButtonActionPerformed(java.awt.event.ActionEvent evt) {                                                   
         if(PlayerToBeRemoved.getText().equals("")) return;
     	String name = "%"+PlayerToBeRemoved.getText()+"%";
-        queries.deleteQuery(name);
+        try {
+			queries.deleteQuery(name);
+		} catch (SQLException e) {
+			JFrame eframe = new JFrame();
+			JOptionPane.showMessageDialog(eframe, e);
+			
+		}
     }     
     
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {                                                   

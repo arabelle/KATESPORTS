@@ -258,7 +258,7 @@ public class Queries {
     //Delete from Players where name like ‘Emilio%’; //no rentals to delete
     //Delete from Players where name like ‘Bob%’; //many rentals get deleted
     // user specifies the name
-    public void deleteQuery(String nameregex) {
+    public void deleteQuery(String nameregex) throws SQLException {
     	PreparedStatement  ps;
     	Connection con = UI.getCon();
     	try
@@ -289,8 +289,9 @@ public class Queries {
     	    catch (SQLException ex2)
     	    {
     		System.out.println("Message: " + ex2.getMessage());
-    		System.exit(-1);
+    		throw ex2;
     	    }
+            throw ex;
     	}
     }
 
