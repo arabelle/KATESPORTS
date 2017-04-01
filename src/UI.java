@@ -32,7 +32,7 @@ public class UI extends javax.swing.JFrame {
 	Queries queries;
 	
 	
-    public UI() {
+    public UI(String username, String password) {
     	
     	
     	queries = new Queries();
@@ -50,8 +50,6 @@ public class UI extends javax.swing.JFrame {
         
         String connectURL = "jdbc:oracle:thin:@localhost.ugrad.cs.ubc.ca:1522:ug";
 
-		String username = "ora_l5z8";
-		String password = "a28626117";
 		
 		jComboBox1.removeAllItems();
 		jComboBox1.addItem("Avg");
@@ -93,8 +91,7 @@ public class UI extends javax.swing.JFrame {
     public static Connection getCon() {
     	return con;
     }
-    // <editor-fold defaultstate="collapsed" desc="Generated Code">                          
-     // <editor-fold defaultstate="collapsed" desc="Generated Code">                          
+    // Genrated by the netbeans GUI editor                      
     private void initComponents() {
 
         jFormattedTextField1 = new javax.swing.JFormattedTextField();
@@ -1062,7 +1059,7 @@ public class UI extends javax.swing.JFrame {
     	PlayerTable.validate();
     }     
 
-
+    // Takes in the result set and returns the table model to be displayed
     private DefaultTableModel buildTable(ResultSet rs){
     	ResultSetMetaData rsmd;
     	
@@ -1100,15 +1097,8 @@ public class UI extends javax.swing.JFrame {
     }
     
     
-    /**
-     * @param args the command line arguments
-     */
-    public static void runUI() {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
+    public static void runUI(String username, String password) {
+        // Make it look like a windows program
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
                 if ("Windows".equals(info.getName())) {
@@ -1125,12 +1115,10 @@ public class UI extends javax.swing.JFrame {
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(UI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-        //</editor-fold>
-
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new UI().setVisible(true);
+                new UI(username, password).setVisible(true);
             }
         });
     }

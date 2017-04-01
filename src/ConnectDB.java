@@ -162,11 +162,13 @@ public class ConnectDB implements ActionListener
      * event handler for login window
      */ 
     public void actionPerformed(ActionEvent e) {
-		if ( connect(usernameField.getText(), String.valueOf(passwordField.getPassword()))) {
+    	String username = usernameField.getText();
+    	String password = String.valueOf(passwordField.getPassword());
+		if ( connect(username,password)) {
 		  // if the username and password are valid, 
 		  // remove the login window and display a text menu 
 		  mainFrame.dispose();
-		  showMenu();     
+		  UI.runUI(username,password);
 		}
 		else {
 		  loginAttempts++;
