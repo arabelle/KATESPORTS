@@ -34,7 +34,8 @@ CREATE TABLE Team (
 	team_name VARCHAR2(255),
 	coach_name VARCHAR2(255),
 	phone_no CHAR(12),
-	CONSTRAINT team_pk PRIMARY KEY (team_name)
+	CONSTRAINT team_pk PRIMARY KEY (team_name),
+	CONSTRAINT team_ck UNIQUE (phone_no)
 );
 
 grant select on Team to public;
@@ -54,7 +55,8 @@ CREATE TABLE Referee (
 	ref_id NUMBER(10),
 	name VARCHAR2(255),
 	phone_no CHAR(12),
-	CONSTRAINT ref_pk PRIMARY KEY(ref_id)
+	CONSTRAINT ref_pk PRIMARY KEY(ref_id),
+	CONSTRAINT ref_ck UNIQUE (phone_no)
 );
 
 grant select on Referee to public;
@@ -80,6 +82,7 @@ CREATE TABLE Player (
 	matches_lost NUMBER(5), 
 	team_name VARCHAR2(255) NOT NULL,
 	CONSTRAINT player_pk PRIMARY KEY (player_id),
+	CONSTRAINT player_ck UNIQUE (phone_no),
 	CONSTRAINT team_fk FOREIGN KEY (team_name) REFERENCES Team(team_name)
 );
 
@@ -120,15 +123,15 @@ VALUES(16, 'Benton Gunia', '400-825-5245', 19, 124, 8, 1, 'Ball Is Life');
 INSERT INTO Player
 VALUES(17, 'Ranee Keach', '400-815-5655', 11, 129, 11, 0, 'Ball Is Life');
 INSERT INTO Player
-VALUES(18,'Migdalia Falcon','300-600-1005',11,123,12,4,'Grannies');
+VALUES(18,'Migdalia Falcon','300-500-1005',11,123,12,4,'Grannies');
 INSERT INTO Player
-VALUES(19,'Tana Rohrbaugh','300-600-1004',19,115,14,2,'Grannies');
+VALUES(19,'Tana Rohrbaugh','300-200-1004',19,115,14,2,'Grannies');
 INSERT INTO Player
-VALUES(20,'Sherilyn Pitt','300-600-1003',22,112,62,12,'Grannies');
+VALUES(20,'Sherilyn Pitt','300-630-1003',22,112,62,12,'Grannies');
 INSERT INTO Player
-VALUES(21,'Eartha Absher','300-600-1002',23,161,23,3,'Grannies');
+VALUES(21,'Eartha Absher','300-680-1002',23,161,23,3,'Grannies');
 INSERT INTO Player
-VALUES(22,'Verdie Brar','300-600-1001',12,177,23,2,'Grannies');
+VALUES(22,'Verdie Brar','300-700-1001',12,177,23,2,'Grannies');
 INSERT INTO Player
 VALUES(23,'Ross Vanetten','300-600-1005',14,116,52,2,'Grannies');
 INSERT INTO Player
@@ -196,6 +199,7 @@ CREATE TABLE Rental (
 	player_id NUMBER(10) NOT NULL,
 	item_id NUMBER(10) NOT NULL,
 	CONSTRAINT rental_pk PRIMARY KEY (rental_id),
+	CONSTRAINT rental_ck UNIQUE (player_id, item_id),
 	CONSTRAINT player_fk FOREIGN KEY (player_id) REFERENCES Player(player_id) ON DELETE CASCADE,
 	CONSTRAINT item_fk FOREIGN KEY (item_id) REFERENCES Equipment(item_id)
 );
@@ -257,6 +261,48 @@ INSERT INTO MatchSummary
 VALUES  ('Non-Losers', 'AndroidT', 1, 8, 'AndroidT', 'Non-Losers');
 INSERT INTO MatchSummary
 VALUES   ('AndroidT', 'Grannies', 10, 3, 'AndroidT', 'Grannies');
+INSERT INTO MatchSummary
+VALUES ('Hot Cheetos', 'Grannies',32,43, 'Grannies','Hot Cheetos');
+INSERT INTO MatchSummary
+VALUES ('Hot Cheetos','Non-Losers',25,32,'Non-Losers','Hot Cheetos');
+INSERT INTO MatchSummary
+VALUES ('Hot Cheetos','Ball Is Life',26,43,'Ball Is Life','Hot Cheetos');
+INSERT INTO MatchSummary
+VALUES ('Hot Cheetos','Ball Is Life',27,45,'Ball Is Life','Hot Cheetos');
+INSERT INTO MatchSummary
+VALUES ('Hot Cheetos','Non-Losers',45,62,'Non-Losers','Hot Cheetos');
+INSERT INTO MatchSummary
+VALUES ('Grannies','Non-Losers',57,43,'Grannies','Non-Losers');
+INSERT INTO MatchSummary
+VALUES ('Grannies','Ball Is Life',44,12,'Grannies','Ball Is Life');
+INSERT INTO MatchSummary
+VALUES ('Grannies','Ball Is Life',66,31,'Grannies','Ball Is Life');
+INSERT INTO MatchSummary
+VALUES ('Grannies','Non-Losers',34,13,'Grannies','Non-Losers');
+INSERT INTO MatchSummary
+VALUES ('Grannies','Non-Losers',23,51,'Non-Losers','Grannies');
+INSERT INTO MatchSummary
+VALUES ('Non-Losers','Ball Is Life',73,34,'Non-Losers','Ball Is Life');
+INSERT INTO MatchSummary
+VALUES ('Non-Losers','Ball Is Life',23,15,'Non-Losers','Ball Is Life');
+INSERT INTO MatchSummary
+VALUES ('Non-Losers','Ball Is Life',52,86,'Ball Is Life','Non-Losers');
+INSERT INTO MatchSummary
+VALUES ('Non-Losers', 'Grannies',15,34, 'Grannies','Non-Losers');
+INSERT INTO MatchSummary
+VALUES ('Non-Losers', 'Grannies',43,23,'Non-Losers', 'Grannies');
+INSERT INTO MatchSummary
+VALUES ('Ball Is Life', 'Grannies',23,25, 'Grannies','Ball Is Life');
+INSERT INTO MatchSummary
+VALUES ('Ball Is Life', 'Grannies',24,73, 'Grannies','Ball Is Life');
+INSERT INTO MatchSummary
+VALUES ('Ball Is Life','Non-Losers',26,34,'Non-Losers','Ball Is Life');
+INSERT INTO MatchSummary
+VALUES ('Ball Is Life','Non-Losers',45,23,'Ball Is Life','Non-Losers');
+INSERT INTO MatchSummary
+VALUES ('Ball Is Life','Hot Cheetos',84,27,'Ball Is Life','Hot Cheetos');
+INSERT INTO MatchSummary
+VALUES ('Ball Is Life','Hot Cheetos',34,26,'Ball Is Life','Hot Cheetos');
 
 CREATE TABLE MatchInfo (
 	match_id NUMBER(10) NOT NULL,
@@ -268,6 +314,8 @@ CREATE TABLE MatchInfo (
 	end_time TIMESTAMP,
 	ref_id NUMBER(10) NOT NULL,
 	CONSTRAINT mi_pk PRIMARY KEY (match_id),
+	CONSTRAINT matchref_ck UNIQUE (start_time, end_time, ref_id),
+	CONSTRAINT match_ck UNIQUE (home_team, away_team, start_time, end_time),
 	CONSTRAINT ref_fk FOREIGN KEY (ref_id) REFERENCES Referee(ref_id) ON DELETE SET NULL,
 	CONSTRAINT home_fk FOREIGN KEY (home_team) REFERENCES Team(team_name),
 	CONSTRAINT away_fk FOREIGN KEY (away_team) REFERENCES Team(team_name),
@@ -298,3 +346,45 @@ INSERT INTO MatchInfo
 VALUES (10, 'AndroidT', 'Hot Cheetos', 8, 1, to_timestamp('08-18-2017 12:00','MM-DD-YYYY HH24:MI'), to_timestamp('08-18-2017 13:30','MM-DD-YYYY HH24:MI'), 2);
 INSERT INTO MatchInfo
 VALUES (11, 'Non-Losers', 'AndroidT', 1, 8, to_timestamp('08-29-2017 15:00','MM-DD-YYYY HH24:MI'), to_timestamp('08-29-2017 18:30','MM-DD-YYYY HH24:MI'), 3);
+INSERT INTO MatchInfo
+VALUES (12,'Hot Cheetos', 'Grannies',32,43,to_timestamp('09-01-2017 9:45','MM-DD-YYYY HH24:MI'),to_timestamp('09-01-2017 10:45','MM-DD-YYYY HH24:MI'),1);
+INSERT INTO MatchInfo
+VALUES (13,'Hot Cheetos','Non-Losers',25,32,to_timestamp('09-02-2017 10:45','MM-DD-YYYY HH24:MI'),to_timestamp('09-02-2017 11:45','MM-DD-YYYY HH24:MI'),3);
+INSERT INTO MatchInfo
+VALUES (14,'Hot Cheetos','Ball Is Life',26,43,to_timestamp('09-02-2017 19:45','MM-DD-YYYY HH24:MI'),to_timestamp('09-02-2017 21:00','MM-DD-YYYY HH24:MI'),4);
+INSERT INTO MatchInfo
+VALUES (15,'Hot Cheetos','Ball Is Life',27,45,to_timestamp('09-03-2017 12:45','MM-DD-YYYY HH24:MI'),to_timestamp('09-03-2017 13:45','MM-DD-YYYY HH24:MI'),1);
+INSERT INTO MatchInfo
+VALUES (16,'Hot Cheetos','Non-Losers',45,62,to_timestamp('09-14-2017 19:30','MM-DD-YYYY HH24:MI'),to_timestamp('09-14-2017 21:00','MM-DD-YYYY HH24:MI'),3);
+INSERT INTO MatchInfo
+VALUES (17,'Grannies','Non-Losers',57,43,to_timestamp('10-10-2017 16:45','MM-DD-YYYY HH24:MI'),to_timestamp('10-10-2017 18:45','MM-DD-YYYY HH24:MI'),1);
+INSERT INTO MatchInfo
+VALUES (18,'Grannies','Ball Is Life',44,12,to_timestamp('10-13-2017 14:45','MM-DD-YYYY HH24:MI'),to_timestamp('10-13-2017 15:35','MM-DD-YYYY HH24:MI'),1);
+INSERT INTO MatchInfo
+VALUES (19,'Grannies','Ball Is Life',66,31,to_timestamp('10-14-2017 14:45','MM-DD-YYYY HH24:MI'),to_timestamp('10-14-2017 16:25','MM-DD-YYYY HH24:MI'),4);
+INSERT INTO MatchInfo
+VALUES (20,'Grannies','Non-Losers',34,13,to_timestamp('10-16-2017 20:35','MM-DD-YYYY HH24:MI'),to_timestamp('10-16-2017 21:25','MM-DD-YYYY HH24:MI'),5);
+INSERT INTO MatchInfo
+VALUES (21,'Grannies','Non-Losers',23,51,to_timestamp('10-18-2017 19:15','MM-DD-YYYY HH24:MI'),to_timestamp('10-18-2017 21:05','MM-DD-YYYY HH24:MI'),2);
+INSERT INTO MatchInfo
+VALUES (22,'Non-Losers','Ball Is Life',73,34,to_timestamp('11-12-2017 10:55','MM-DD-YYYY HH24:MI'),to_timestamp('11-12-2017 12:35','MM-DD-YYYY HH24:MI'),2);
+INSERT INTO MatchInfo
+VALUES (23,'Non-Losers','Ball Is Life',23,15,to_timestamp('11-16-2017 19:20','MM-DD-YYYY HH24:MI'),to_timestamp('11-16-2017 20:40','MM-DD-YYYY HH24:MI'),5);
+INSERT INTO MatchInfo
+VALUES (24,'Non-Losers','Ball Is Life',52,86,to_timestamp('11-18-2017 19:40','MM-DD-YYYY HH24:MI'),to_timestamp('11-18-2017 20:45','MM-DD-YYYY HH24:MI'),2);
+INSERT INTO MatchInfo
+VALUES (25,'Non-Losers', 'Grannies',15,34,to_timestamp('11-24-2017 9:00','MM-DD-YYYY HH24:MI'),to_timestamp('11-24-2017 10:50','MM-DD-YYYY HH24:MI'),1);
+INSERT INTO MatchInfo
+VALUES (26,'Non-Losers', 'Grannies',43,23,to_timestamp('12-11-2017 13:05','MM-DD-YYYY HH24:MI'),to_timestamp('12-11-2017 16:05','MM-DD-YYYY HH24:MI'),3);
+INSERT INTO MatchInfo
+VALUES (27,'Ball Is Life', 'Grannies',23,25,to_timestamp('12-21-2017 9:00','MM-DD-YYYY HH24:MI'),to_timestamp('12-21-2017 10:50','MM-DD-YYYY HH24:MI'),1);
+INSERT INTO MatchInfo
+VALUES (28,'Ball Is Life', 'Grannies',24,73,to_timestamp('12-21-2017 11:00','MM-DD-YYYY HH24:MI'),to_timestamp('12-21-2017 12:00','MM-DD-YYYY HH24:MI'),1);
+INSERT INTO MatchInfo
+VALUES (29,'Ball Is Life','Non-Losers',26,34,to_timestamp('12-22-2017 7:45','MM-DD-YYYY HH24:MI'),to_timestamp('12-22-2017 8:25','MM-DD-YYYY HH24:MI'),3);
+INSERT INTO MatchInfo
+VALUES (30,'Ball Is Life','Non-Losers',45,23,to_timestamp('12-23-2017 14:15','MM-DD-YYYY HH24:MI'),to_timestamp('12-23-2017 16:05','MM-DD-YYYY HH24:MI'),1);
+INSERT INTO MatchInfo
+VALUES (31,'Ball Is Life','Hot Cheetos',84,27,to_timestamp('12-25-2017 11:40','MM-DD-YYYY HH24:MI'),to_timestamp('12-25-2017 12:30','MM-DD-YYYY HH24:MI'),1);
+INSERT INTO MatchInfo
+VALUES (32,'Ball Is Life','Hot Cheetos',34,26,to_timestamp('12-30-2017 20:35','MM-DD-YYYY HH24:MI'),to_timestamp('12-30-2017 21:35','MM-DD-YYYY HH24:MI'),1);

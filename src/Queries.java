@@ -554,7 +554,7 @@ public class Queries {
 				System.out.println("No streak exists.");
 				Output[0] = "No";
 				Output[1] = "Streak";
-				Output[2] = "Exits";
+				Output[2] = "Exists";
 			}
 
 
