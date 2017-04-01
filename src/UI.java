@@ -767,7 +767,7 @@ public class UI extends javax.swing.JFrame {
 
         jLabel9.setText("View team with");
 
-        GetGoalsAverage.setText("Most Goals For");
+        GetGoalsAverage.setText("Most Goals");
         GetGoalsAverage.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 GetGoalsAverageActionPerformed(evt);
@@ -781,7 +781,7 @@ public class UI extends javax.swing.JFrame {
             }
         });
 
-        GetGoalsAverage1.setText("Fewest Goals For");
+        GetGoalsAverage1.setText("Fewest Goals");
         GetGoalsAverage1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 GetGoalsAverage1ActionPerformed(evt);
